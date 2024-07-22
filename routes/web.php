@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,21 +23,19 @@ Route::get('admin',[AuthController::class,'login_admin']);
 Route::post('admin',[AuthController::class,'auth_login_admin']);
 Route::get('admin/logout',[AuthController::class,'auth_logout_admin'])->name('logout');
 
-Route::get('admin/dashboard', function () {
-    return view('admin.dashboard');
+
+Route::group(['middleware'=>'admin'],function () {
+
+    Route::get('admin/dashboard',[DashboardController::class,'dashboard'])->name("dashboard");
+    Route::get('admin/admin/list',[AdminController::class,'list'])->name('list');
+    Route::get('admin/admin/add',[AdminController::class,'add'])->name('add');
+    Route::post('admin/admin/add',[AdminController::class,'store'])->name('create');
+    Route::get('admin/admin/edit/{id}',[AdminController::class,'edit'])->name('edit');
+    // Route::post('admin/admin/edit/{id}',[AdminController::class,'update'])->name('update');
+    Route::put('admin/admin/edit/{user}', [AdminController::class, 'update'])->name('update');
+    Route::get('admin/admin/list/{user}', [AdminController::class, 'destroy'])->name('delete');
+
+
+
 
 });
-Route::get('admin/admin/list', function () {
-    return view('admin.admin.list');
-
-});
-// Route::controller(AuthController::class)->group(function(){
-//     Route::get('/admin/logout', 'destroy' )->name('admin.logout');
-    // Route::get('/admin/profile', 'profile' )->name('admin.profile');
-    // Route::get('/edit/profile', 'editprofile' )->name('edit.profile');
-    // Route::post('/store/profile', 'stroreprofile' )->name('strore.profile');
-    // Route::get('/change/password', 'changepassword' )->name('change.password');
-    // Route::post('/update/password', 'updatepassword' )->name('update.password');
-    // Route::post('/update/password', 'updatepassword' )->name('update.password');
-
-// });

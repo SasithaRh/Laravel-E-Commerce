@@ -270,6 +270,7 @@
       </div>
       <!-- /.container-fluid -->
     </div>
+</div>
     @endsection
 
     @section('script')

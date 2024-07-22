@@ -19,12 +19,16 @@ class AuthController extends Controller
 
         return view('admin.auth.login');
     }
+
     public function auth_login_admin(Request $request)
     {
        $remember = !empty($request->remember) ? true:false;
        if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_admin'=>1],$remember)){
         return redirect('admin/dashboard');
-       }else{
+       }elseif(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'is_admin'=>0],$remember)){
+        return redirect('admin/admin/list');
+       }
+       else{
          return redirect()->back()->with('error','Please Enter Correct Email & Password');
        }
 
