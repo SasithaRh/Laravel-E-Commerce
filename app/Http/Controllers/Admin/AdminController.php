@@ -16,7 +16,7 @@ class AdminController extends Controller
     public function list()
     {
         $data['header_title'] = 'Admin List';
-        $details = User::select('users.*')->where('is_admin','=',1)->where('is_delete','=',0)->orderBy('id','desc')->get();
+        $details = User::select('users.*')->where('is_admin','=',1)->where('is_delete','=',0)->orderBy('id','desc')->paginate(5);
 
         return view('admin.admin.list',$data,compact('details'));
     }
