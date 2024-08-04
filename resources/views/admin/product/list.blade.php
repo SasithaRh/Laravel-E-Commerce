@@ -37,44 +37,38 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Category Name</th>
-                            <th>Slug</th>
-                            <th style="width: 13%;">Meta Title</th>
-                            <th style="width: 20%;">Meta Description</th>
-                            <th style="width: 13%;">Meta Keywords</th>
-                            <th style="width: 13%;">Users</th>
-                            <th style="width: 9%;">Status</th>
+                            <th style="width: 20%;">Product Name</th>
+                            <th style="width: 20%;">Slug</th>
+                            <th style="width: 20%;">Created By</th>
+                            <th style="width: 15%;">Status</th>
 
                             <th style="width: 15%;" class="text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($details as $key => $detail)
+                        @foreach ($details as $key => $detail)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td class="text-sm">{{ $detail['name'] }}</td>
+                                <td class="text-sm">{{ $detail['title'] }}</td>
                                 <td class="text-sm">{{ $detail['slug'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_title'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_description'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_keywords'] }}</td>
                                 <td class="text-sm">{{ $detail['created_by'] }}</td>
                                 <td class="text-sm">{!! $detail['status'] == 1
                                     ? '<p class="text-success text-bold">Active</p>'
                                     : '<p class="text-danger text-bold">InActive</p>' !!}</td>
 
-                                <td ><a href="{{ route('edit.category', $detail['id']) }}"
+                                <td ><a href="{{ route('edit.product', $detail['id']) }}"
                                         class="btn btn-primary btn-sm mr-1">Edit</a><a
-                                        href="{{ route('delete.category', $detail['id']) }}" class="btn btn-sm btn-danger"
+                                        href="" class="btn btn-sm btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this User?');">Delete</a>
                                 </td>
                             </tr>
-                        @endforeach --}}
+                        @endforeach
 
                     </tbody>
                 </table>
-                {{-- <div class="d-flex justify-content-center" style="margin-top: 20px;">
+                <div class="d-flex justify-content-center" style="margin-top: 20px;">
                     {{ $details->links() }}
-                </div> --}}
+                </div>
             </div>
             <!-- /.card-body -->
         </div>

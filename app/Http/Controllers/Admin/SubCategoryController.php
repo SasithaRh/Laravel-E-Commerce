@@ -108,4 +108,28 @@ class SubCategoryController extends Controller
         ]);
         return redirect()->back()->with('success', 'Sub Category was deleted successfully!');
     }
+    public function get_subcategory(Request $request)  {
+
+        $cat_id= $request->id;
+
+        $details = SubCategory::select('sub_categories.*')
+        ->join('users', 'users.id', '=', 'sub_categories.created_by')
+        ->where('sub_categories.is_delete', '=', 0)
+        ->where('sub_categories.status', '=', 1)
+        ->where('sub_categories.category_id', '=', $cat_id)
+        ->orderBy('sub_categories.name', 'asc')
+        ->get();
+
+        $html='';
+        $html.='<option  value="">Select One</option>';
+        foreach ($details as $detail){
+            $html.='<option  value="'.$detail->id.'">'.$detail->name.'</option>';
+
+        }
+        $json['html'] =$html;
+
+        echo json_encode($json);
+
+    }
+
 }

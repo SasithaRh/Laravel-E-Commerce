@@ -224,6 +224,15 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ url('admin/color/list') }}" class="nav-link @if(Request::segment(2) == 'color') active @endif">
+                    <i class="nav-icon fas fa-list-alt"></i>
+                  <p>
+                    Colors
+
+                  </p>
+                </a>
+              </li>
           <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>

@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Sub Category List</h1>
+                        <h1 class="m-0">Color List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Sub Category List</li>
+                            <li class="breadcrumb-item active">Color List</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,11 +23,11 @@
             <div class="card-header">
                 <div class="row mb-2">
                     <div class="col-sm-10">
-                        <h3 class="card-title">Sub Category List Table</h3>
+                        <h3 class="card-title">Color List Table</h3>
                     </div>
                     <div class="col-sm-2">
-                        <a href="{{ route('create.sub_category') }}" class="text-white"><button type="button"
-                                class="btn btn-block btn-primary btn-sm">Add New Sub Category</button></a>
+                        <a href="{{ route('create.color') }}" class="text-white"><button type="button"
+                                class="btn btn-block btn-primary btn-sm">Add New Color</button></a>
                     </div>
                 </div>
             </div>
@@ -37,17 +37,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th class="text-sm">Sub Cat Name</th>
-                            <th class="text-sm" style="width: 9%;">Main Category</th>
-                            <th class="text-sm">Slug</th>
-                            <th class="text-sm" style="width: 10%;">Meta Title</th>
-                            <th class="text-sm" style="width: 13%;">Meta Description</th>
-                            <th class="text-sm" style="width: 13%;">Meta Keywords</th>
-                            <th class="text-sm" style="width: 8%;">Users</th>
+                            <th style="width: 20%;">Color Name</th>
+                            <th style="width: 13%;">Code</th>
+                            <th style="width: 20%;">Users</th>
+                            <th style="width:15%;">Status</th>
 
-                            <th class="text-sm" style="width: 9%;">Status</th>
-
-                            <th style="width: 11%;" class="text-left">Action</th>
+                            <th style="width: 20%;" class="text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,20 +50,15 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td class="text-sm">{{ $detail['name'] }}</td>
-                                <td class="text-sm">{{ $detail['category_name'] }}</td>
-                                <td class="text-sm">{{ $detail['slug'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_title'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_description'] }}</td>
-                                <td class="text-sm">{{ $detail['meta_keywords'] }}</td>
+                                <td class="text-sm">{{ $detail['code'] }}</td>
                                 <td class="text-sm">{{ $detail['created_by'] }}</td>
-
                                 <td class="text-sm">{!! $detail['status'] == 1
                                     ? '<p class="text-success text-bold">Active</p>'
                                     : '<p class="text-danger text-bold">InActive</p>' !!}</td>
 
-                                <td ><a href="{{ route('edit.sub_category', $detail['id']) }}"
-                                        class="btn btn-primary  btn-sm mr-1">Edit</a><a
-                                        href="{{ route('delete.sub_category', $detail['id']) }}" class="btn btn-danger btn-sm"
+                                <td ><a href="{{ route('edit.color', $detail['id']) }}"
+                                        class="btn btn-primary btn-sm mr-1">Edit</a><a
+                                        href="{{ route('delete.color', $detail['id']) }}" class="btn btn-sm btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this User?');">Delete</a>
                                 </td>
                             </tr>

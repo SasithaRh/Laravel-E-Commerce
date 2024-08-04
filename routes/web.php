@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ColorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,6 +46,8 @@ Route::group(['middleware'=>'admin'],function () {
     Route::put('admin/category/edit/{item}', [CategoryController::class, 'update'])->name('update.category');
     Route::get('admin/category/list/{item}', [CategoryController::class, 'destroy'])->name('delete.category');
 
+    Route::post('admin/get_subcategory', [SubCategoryController::class, 'get_subcategory']);
+
     Route::get('admin/sub_category/list',[SubCategoryController::class,'index'])->name('sub_category');
     Route::get('admin/sub_category/add',[SubCategoryController::class,'create'])->name('create.sub_category');
     Route::post('admin/sub_category/add',[SubCategoryController::class,'store'])->name('store.sub_category');
@@ -56,7 +59,9 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/product/add',[ProductController::class,'create'])->name('create.product');
     Route::post('admin/product/add',[ProductController::class,'store'])->name('store.product');
     Route::get('admin/product/edit/{id}',[ProductController::class,'edit'])->name('edit.product');
-    // Route::put('admin/sub_category/edit/{item}', [ProductController::class, 'update'])->name('update.sub_category');
+    Route::post('admin/product/edit/{item}', [ProductController::class, 'update'])->name('update.product');
+    Route::get('admin/product/image_delete/{item}', [ProductController::class, 'delete'])->name('image.delete');
+
     // Route::get('admin/sub_category/list/{item}', [ProductController::class, 'destroy'])->name('delete.sub_category');
 
     Route::get('admin/brand/list',[BrandController::class,'index'])->name('brand');
@@ -65,6 +70,14 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/brand/edit/{id}',[BrandController::class,'edit'])->name('edit.brand');
     Route::put('admin/brand/edit/{item}', [BrandController::class, 'update'])->name('update.brand');
     Route::get('admin/brand/list/{item}', [BrandController::class, 'destroy'])->name('delete.brand');
+
+
+    Route::get('admin/color/list',[ColorController::class,'index'])->name('color');
+    Route::get('admin/color/add',[ColorController::class,'create'])->name('create.color');
+    Route::post('admin/color/add',[ColorController::class,'store'])->name('store.color');
+    Route::get('admin/color/edit/{id}',[ColorController::class,'edit'])->name('edit.color');
+    Route::put('admin/color/edit/{item}', [ColorController::class, 'update'])->name('update.color');
+    Route::get('admin/color/list/{item}', [ColorController::class, 'destroy'])->name('delete.color');
 
 
 });

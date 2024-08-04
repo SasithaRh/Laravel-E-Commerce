@@ -7,13 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Add New Brand</h1>
+                        <h1 class="m-0">Add New Color</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item ">Brand List</li>
-                            <li class="breadcrumb-item active">Add New Brand</li>
+                            <li class="breadcrumb-item ">Color List</li>
+                            <li class="breadcrumb-item active">Add New Color</li>
 
                         </ol>
                     </div><!-- /.col -->
@@ -34,45 +34,25 @@
                             <!-- /.card-header -->
                             <!-- form start -->
 
-                            <form action="{{ route('store.brand') }}" method="post">
+                            <form action="{{ route('store.color') }}" method="post">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Brand Name</label>
-                                        <input type="text" name="name" class="form-control" placeholder="Enter Brand name">
+                                        <label for="exampleInputEmail1">Color Name</label>
+                                        <input type="text" name="name" class="form-control" placeholder="Enter Color name">
                                         @error('name')
                                             <span class="text-danger" align="center">{{ $message }}</span>
                                         @enderror
                                     </div>
 
-                                   <div class="form-group">
-                                    <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="slug" class="form-control" placeholder="Enter Slug">
-                                    @error('slug')
-                                        <span class="text-danger" align="center">{{ $message }}</span>
-                                    @enderror
-                                </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Title</label>
-                                    <input type="text" name="meta_title" class="form-control" placeholder="Enter meta_title">
-                                    @error('meta_title')
+                                    <label for="exampleInputEmail1">Color Code</label>
+                                    <input type="color" name="code" class="form-control" placeholder="Enter Color Code">
+                                    @error('code')
                                         <span class="text-danger" align="center">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Description</label>
-                                    <input type="text" name="meta_description" class="form-control" placeholder="Enter meta_description">
-                                    @error('meta_description')
-                                        <span class="text-danger" align="center">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Keywords</label>
-                                    <input type="text" name="meta_keywords" class="form-control" placeholder="Enter meta_keywords">
-                                    @error('meta_keywords')
-                                        <span class="text-danger" align="center">{{ $message }}</span>
-                                    @enderror
-                                </div>
+
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Status</label>
                                         <select name="status" class="form-control">
@@ -105,4 +85,3 @@
     <script src="{{ asset('assest/dist/js/pages/dashboard3.js') }}"></script>
 
 @endsection
-
