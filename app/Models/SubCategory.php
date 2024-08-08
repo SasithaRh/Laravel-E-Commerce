@@ -20,4 +20,19 @@ class SubCategory extends Model
         'created_by',
         'is_delete'
     ];
+    static public function getSingleSubSlug($slug) {
+        return self::where('slug', '=', $slug)
+        ->where('sub_categories.is_delete', '=', 0)
+        ->where('sub_categories.status', '=', 1)
+        ->first();
+    }
+    static public function getRecordSubCategory($category_id) {
+        return self::select('sub_categories.*')
+        ->join('users', 'users.id', '=', 'sub_categories.created_by')
+        ->where('sub_categories.is_delete', '=', 0)
+        ->where('sub_categories.status', '=', 1)
+        ->where('sub_categories.category_id', '=', $category_id )
+        ->orderBy('sub_categories.name', 'asc')
+        ->get();
+    }
 }

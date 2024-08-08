@@ -24,6 +24,7 @@ class CategoryController extends Controller
         ->paginate(5);
         return view('admin.category.list',$data,compact("details"));
     }
+
     /**
      * Show the form for creating a new resource.
      */

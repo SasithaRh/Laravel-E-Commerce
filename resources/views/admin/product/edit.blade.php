@@ -217,17 +217,18 @@
 
                                     </div>
                                     @if(!empty($products->getImage->count()))
-                                        <div class="row">
+                                        <div class="row" id="sortable">
                                             @foreach ($products->getImage as $Image)
-                                            <div class="col-md-1">
+                                            <div  class="col-md-1 sortable_image" id="{{ $Image->id }}">
                                                 <img src="{{ asset('storage/upload/products/' . $Image->image_name) }}" alt="Uploaded Image" style="max-width: 150px; max-height: 150px; margin: 10px;">
-                                                    <a href="{{ route("image.delete", $Image['id']) }}" onclick="return confirm('Are you sure you want to delete this Image?');" class="btn btn-danger btn-sm">Delete</a>
+                                                    <a style="margin-left: 20%;"  href="{{ route("image.delete", $Image['id']) }}" onclick="return confirm('Are you sure you want to delete this Image?');" class="btn btn-danger btn-sm">Delete</a>
 
                                             </div>
 
                                             @endforeach
                                         </div>
                                     @endif
+                                    <br>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -306,6 +307,41 @@
 @section('script')
     <script src="{{ asset('assest/dist/js/pages/dashboard3.js') }}"></script>
     <script src="{{ asset('assest/plugins/summernote/summernote-bs4.min.js') }}"></script>
+     <script src="{{ asset('assest/plugins/sortable/jquery-ui.js') }}"></script>
+    {{--<script>
+    $(document).ready(function () {
+    $("#sortable").sortable({
+        update: function(e, ui){
+            var photo_id = [];
+            $('.sortable_image').each(function(){
+                var id = $(this).attr('id');
+                photo_id.push(id);
+            });
+            $.ajax({
+                type: "POST",
+                url: "{{ url('admin/product_image_sortable') }}",
+                data: {
+                    "photo_id": photo_id,
+                    "_token": "{{ csrf_token() }}"
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.success) {
+                        console.log("Order updated successfully");
+                    } else {
+                        console.error("Error: " + data.error);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX error: " + textStatus + " : " + errorThrown);
+                }
+            });
+        }
+    });
+});
+
+
+        </script> --}}
     <script>
         $(function () {
           // Summernote

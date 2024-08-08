@@ -9,6 +9,11 @@ use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\ProductController as ProductFront ;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,10 +28,13 @@ use App\Http\Controllers\Admin\ColorController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/',[HomeController::class,'index'])->name("home");
 
-Route::get('admin',[AuthController::class,'login_admin']);
+Route::get('admin',[AuthController::class,'login_admin'])->name('login');
 Route::post('admin',[AuthController::class,'auth_login_admin']);
 Route::get('admin/logout',[AuthController::class,'auth_logout_admin'])->name('logout');
+
+
 
 
 Route::group(['middleware'=>'admin'],function () {
@@ -61,6 +69,8 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/product/edit/{id}',[ProductController::class,'edit'])->name('edit.product');
     Route::post('admin/product/edit/{item}', [ProductController::class, 'update'])->name('update.product');
     Route::get('admin/product/image_delete/{item}', [ProductController::class, 'delete'])->name('image.delete');
+    // Route::post('admin/product_image_sortable', [ProductController::class, 'product_image_sortable']);
+
 
     // Route::get('admin/sub_category/list/{item}', [ProductController::class, 'destroy'])->name('delete.sub_category');
 
@@ -81,3 +91,6 @@ Route::group(['middleware'=>'admin'],function () {
 
 
 });
+
+Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
+Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);

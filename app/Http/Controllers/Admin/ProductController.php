@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\product;
+use App\Models\Product;
 use App\Http\Requests\StoreproductRequest;
 use App\Http\Requests\UpdateproductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Color;
@@ -25,6 +26,7 @@ class ProductController extends Controller
     public function index()
     {
         $data['header_title'] = 'Product List';
+
         $details = Product::select('products.*', 'users.name as created_by')
         ->join('users', 'users.id', '=', 'products.created_by')
         ->where('products.is_delete', '=', 0)
@@ -196,7 +198,7 @@ if ($productSizes->isNotEmpty()) {
 
     } else {
         // Handle the case where no files are uploaded
-        return response()->json(['error' => 'No files uploaded'], 400);
+
     }
         return redirect('admin/product/list')->with('success', 'Product was updated successfully!');
 
@@ -216,4 +218,28 @@ if ($productSizes->isNotEmpty()) {
         return redirect()->back()->with('success', 'Image was deleted successfully!');
 
     }
+    // public function product_image_sortable(Request $request) {
+    //     // Validate incoming data
+    //     $validator = Validator::make($request->all(), [
+    //         'photo_id' => 'required|array',
+    //         'photo_id.*' => 'exists:product_images,id', // Ensure IDs exist in the table
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['error' => $validator->errors()], 422);
+    //     }
+
+    //     if(!empty($request->photo_id)){
+    //         $i = 1;
+    //         foreach ($request->photo_id as $photo_id) {
+    //             $Product_Image = Product_Image::findOrFail($photo_id);
+
+
+    //             $Product_Image->order_by = $i;
+    //             $Product_Image->save();
+    //             $i++;
+    //         }
+    //     }
+    //     return response()->json(['success' => true]);
+    // }
 }
