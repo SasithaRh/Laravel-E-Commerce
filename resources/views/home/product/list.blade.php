@@ -1,6 +1,11 @@
 @extends('home.layouts.app')
 @section('style')
 <link rel="stylesheet" href="{{ asset('assest/assets/css/plugins/nouislider/nouislider.css')}}">
+<style>
+   .active-color{
+    border: 2px solid black !important;
+   }
+</style>
     @endsection
 @section('content')
 <main class="main">
@@ -43,8 +48,9 @@
                             <div class="toolbox-sort">
                                 <label for="sortby">Sort by:</label>
                                 <div class="select-custom">
-                                    <select name="sortby" id="sortby" class="form-control">
-                                        <option value="popularity" selected="selected">Most Popular</option>
+                                    <select name="sortby" id="sortby" class="form-control changesortby">
+                                        <option value="" selected="selected">Select</option>
+                                        <option value="popularity" >Most Popular</option>
                                         <option value="rating">Most Rated</option>
                                         <option value="date">Date</option>
                                     </select>
@@ -53,85 +59,10 @@
 
                         </div><!-- End .toolbox-right -->
                     </div><!-- End .toolbox -->
-
-                    <div class="products mb-3">
-                        <div class="row justify-content-center">
-                            @foreach ($getproducts as $product)
-                            @php
-                                $getproductimage = $product->getImageSingle($product->id);
-                                //$getallproductimage = $product->getAllImage($product->id);
-
-                            @endphp
-                            <div class="col-6 col-md-4 col-lg-4">
-                                <div class="product product-7 text-center">
-                                    <figure class="product-media">
-                                        <span class="product-label label-new">New</span>
-                                        <a href="product.html">
-                                            @if (!empty( $getproductimage->image_name))
-                                            <img src="{{ asset('storage/upload/products/' . $getproductimage->image_name) }}" alt="Product image"  style="width: 280px !important;
-                                            height: 280px;" >
-
-                                            @endif
-                                        </a>
-
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                                        </div><!-- End .product-action-vertical -->
-
-                                        <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                        </div><!-- End .product-action -->
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="{{ url($getCategory->slug) }}">{{ $getCategory->name }}</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="{{ url($product->slug) }}">{{ $product->title }}</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                           ${{$product->price}}
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 2 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-thumbs">
-                                            {{-- @if (!empty( $getallproductimage))
-                                            @foreach ( $getallproductimage as $allimage)
-                                                <p>{{ $allimage->image_name }}</p>
-                                            @endforeach --}}
-                                            <a href="#" class="active">
-                                                <img src="{{ asset('assest/assets/images/products/product-4-thumb.jpg')}}" alt="product desc">
-                                            </a>
-                                            {{-- @endif --}}
-                                            <a href="#">
-                                                <img src="{{ asset('assest/assets/images/products/product-4-2-thumb.jpg')}}" alt="product desc">
-                                            </a>
-
-                                            <a href="#">
-                                                <img src="{{ asset('assest/assets/images/products/product-4-3-thumb.jpg')}}" alt="product desc">
-                                            </a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 -->
-                            @endforeach
-
-                            <div class="d-flex justify-content-center" style="margin-top: 20px;">
-                                {{ $getproducts->links() }}
-                            </div>
-
-
-
-                        </div><!-- End .row -->
-                    </div><!-- End .products -->
-
-                    <nav aria-label="Page navigation">
+                    <div id="getproductajax">
+                    @include('home.product._list');
+                   </div>
+                    {{-- <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
                                 <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
@@ -148,9 +79,18 @@
                                 </a>
                             </li>
                         </ul>
-                    </nav>
+                    </nav> --}}
                 </div><!-- End .col-lg-9 -->
                 <aside class="col-lg-3 order-lg-first">
+                    <form action="" method="post" id="filterform">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="sub_category_id" id="get_sub_category_id">
+                        <input type="hidden" name="brand_id" id="get_brand_id">
+                        <input type="hidden" name="color_id" id="get_color_id">
+                        <input type="hidden" name="sort_id" id="get_sort_by">
+                        <input type="hidden" name="start_price" id="get_start_price">
+                        <input type="hidden" name="end_price" id="get_end_price">
+                    </form>
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
                             <label>Filters:</label>
@@ -170,10 +110,10 @@
                                         @foreach ($getsubcategoryfilter as  $f_category)
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="{{ $f_category->id }}">
+                                                <input type="checkbox" class="custom-control-input changeCategory" value="{{$f_category->id}}" id="{{ $f_category->id }}">
                                                 <label class="custom-control-label" for="{{ $f_category->id }}">{{ $f_category->name }}</label>
                                             </div><!-- End .custom-checkbox -->
-                                            <span class="item-count">3</span>
+                                            <span class="item-count">{{ $f_category->totalproducts() }}</span>
                                         </div><!-- End .filter-item -->
                                         @endforeach
 
@@ -251,7 +191,7 @@
                                 <div class="widget-body">
                                     <div class="filter-colors">
                                         @foreach ($getcolors as $color )
-                                        <a href="#" style="background: {{ $color->code }}"><span class="sr-only">{{ $color->name }}</span></a>
+                                        <a href="javascript:;" data-val="0" class="changecolor" id="{{ $color->id }}" style="background: {{ $color->code }}"><span class="sr-only">{{ $color->name }}</span></a>
 
                                         @endforeach
                                      </div><!-- End .filter-colors -->
@@ -272,7 +212,7 @@
                                         @foreach ($getbrands as $brand)
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="brand-{{ $brand->id }}">
+                                                <input type="checkbox" class="custom-control-input changeBrand" value="{{ $brand->id }}" id="brand-{{ $brand->id }}">
                                                 <label class="custom-control-label" for="brand-{{ $brand->id }}">{{ $brand->name }}</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .filter-item -->
@@ -320,6 +260,122 @@
         <script src="{{ asset('assest/assets/js/nouislider.min.js')}}"></script>
         <script src="{{ asset('assest/assets/js/wNumb.js')}}"></script>
     <script src="{{ asset('assest/assets/js/bootstrap-input-spinner.js')}}"></script>
+
+    <script>
+
+            $('.changeCategory').change(function (e) {
+                e.preventDefault();
+                var ids ='';
+
+            $('.changeCategory').each(function(){
+                if(this.checked){
+                    var id = $(this).val();
+                        ids += id+',';
+                }
+
+                        });
+
+            $('#get_sub_category_id').val(ids);
+            FilterForm(ids)
+            });
+            $('.changeBrand').change(function (e) {
+                e.preventDefault();
+                var ids ='';
+
+            $('.changeBrand').each(function(){
+                if(this.checked){
+                    var id = $(this).val();
+                        ids += id+',';
+                }
+
+                        });
+
+            $('#get_brand_id').val(ids);
+            FilterForm()
+            });
+
+            $('.changecolor').click(function (e) {
+                e.preventDefault();
+                var id =$(this).attr('id');
+                var status =$(this).attr('data-val');
+                if(status ==0){
+                    $(this).attr('data-val',1);
+                    $(this).addClass("active-color");
+                }else{
+                    $(this).attr('data-val',0);
+                    $(this).removeClass("active-color");
+                }
+                var ids = '';
+                $('.changecolor').each(function(){
+                    var status =$(this).attr('data-val');
+
+                if(status== 1){
+                    var id = $(this).attr('id');
+                        ids += id+',';
+                }
+
+                        });
+
+            $('#get_color_id').val(ids);
+            FilterForm()
+            });
+            $('.changesortby').change(function (e) {
+                e.preventDefault();
+                 var id = $(this).val();
+
+            $('#get_sort_by').val(id);
+            FilterForm()
+            });
+            function FilterForm() {
+                  $.ajax({
+            type: "POST",
+            url: "{{ url('get_product_filter') }}",
+            data: $('#filterform').serialize(),
+            dataType: "json",
+            success: function(data) {
+                $('#getproductajax').html(data.success);
+            },
+            error: function(data) {
+
+            }
+        })
+        };
+        if ( typeof noUiSlider === 'object' ) {
+		var priceSlider  = document.getElementById('price-slider');
+
+
+
+		noUiSlider.create(priceSlider, {
+			start: [ 0, 2000 ],
+			connect: true,
+			step: 1,
+			margin: 200,
+			range: {
+				'min': 0,
+				'max': 2000
+			},
+			tooltips: true,
+			format: wNumb({
+		        decimals: 0,
+		        prefix: '$'
+		    })
+		});
+
+		// Update Price Range
+		priceSlider.noUiSlider.on('update', function( values, handle ){
+
+            var start_price = values[0];
+            var end_price = values[1];
+
+			$('#get_start_price').val(start_price);
+            $('#get_end_price').val(end_price);
+            FilterForm();
+		});
+	}
+
+
+</script>
+
         @endsection
 
 

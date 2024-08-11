@@ -396,6 +396,8 @@ $("#deletesize"+id).remove();
                 }
             })
         })
+
+
     </script>
 
 @endsection

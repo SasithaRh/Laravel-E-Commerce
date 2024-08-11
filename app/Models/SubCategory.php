@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Product;
 class SubCategory extends Model
 {
     use HasFactory;
@@ -35,4 +35,10 @@ class SubCategory extends Model
         ->orderBy('sub_categories.name', 'asc')
         ->get();
     }
+
+        public function totalproducts()
+        {
+            return $this->hasMany(Product::class, 'sub_category_id')->where('products.is_delete', '=', 0)->where('products.status', '=', 1)->count();
+        }
+
 }

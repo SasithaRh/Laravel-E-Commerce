@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Home\HomeController;
-use App\Http\Controllers\Home\ProductController as ProductFront ;
+use App\Http\Controllers\Home\ProductController as ProductFront;
 
 
 
@@ -93,4 +93,6 @@ Route::group(['middleware'=>'admin'],function () {
 });
 
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
+Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
+

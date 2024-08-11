@@ -28,13 +28,14 @@ class ProductController extends Controller
 //dd($getsubcategory);
         if(!empty($getcategory) && !empty($getsubcategory)){
             $data['getCategory'] =  $getcategory;
+            // dd($data['getCategory']);
             $data['getsubcategory'] =  $getsubcategory;
             $data['getsubcategoryfilter'] =  SubCategory::getRecordSubCategory($getcategory->id);
 
             $data['getproducts'] =   Product::getproducts($getcategory->id,$getsubcategory->id);
 
             return view('home.product.list',$data);
-        }elseif (!empty($getcategory)) {
+        }else if (!empty($getcategory)) {
             $data['getCategory'] =  $getcategory;
             $data['getproducts'] =   Product::getproducts($getcategory->id);
             $data['getsubcategoryfilter'] =  SubCategory::getRecordSubCategory($getcategory->id);
@@ -51,9 +52,20 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function get_product_filter(Request $request)
     {
-        //
+        // dd($request->all());
+        $getproducts =   Product::getproducts();
+
+        //dd($getproducts);
+         return response()->json([
+            "status" =>true,
+            "success" => view('home.product._list',[
+                "getproducts" =>  $getproducts,
+
+            ])->render(),
+         ],200);
+
     }
 
     /**
