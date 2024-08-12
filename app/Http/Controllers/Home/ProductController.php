@@ -18,28 +18,62 @@ class ProductController extends Controller
     public function getCategory($slug,$subslug="")
     {
 
-        //dd($subslug);
+        //dd($slug);
+        $getproductsingle = Product::getproductsingle($slug);
+       // dd($getproductsingle);
         $getcategory = Category::getSingleSlug($slug);
+        //dd( $getcategory);
         $getsubcategory = SubCategory::getSingleSubSlug($subslug);
         $data['getcolors'] =   Color::getcolors();
         $data['getbrands'] =   Brand::getbrands();
 
          SubCategory::getSingleSubSlug($subslug);
 //dd($getsubcategory);
-        if(!empty($getcategory) && !empty($getsubcategory)){
+        if(!empty($getproductsingle)){
+
+            $data['getproducts'] = $getproductsingle;
+            return view('home.product.detail',$data);
+        }
+        else if(!empty($getcategory) && !empty($getsubcategory)){
             $data['getCategory'] =  $getcategory;
             // dd($data['getCategory']);
             $data['getsubcategory'] =  $getsubcategory;
             $data['getsubcategoryfilter'] =  SubCategory::getRecordSubCategory($getcategory->id);
 
-            $data['getproducts'] =   Product::getproducts($getcategory->id,$getsubcategory->id);
+            $getproducts =   Product::getproducts($getcategory->id,$getsubcategory->id);
+            $page = 0;
+            if(!empty($getproducts->nextPageUrl())){
+                $parse_url = parse_url($getproducts->nextPageUrl());
+               // dd($getproducts->nextPageUrl());
+                if(!empty($parse_url['query'])){
+                    parse_str($parse_url['query'],$get_array);
+                    $page = !empty($get_array['page']) ? $get_array['page'] : 0;
 
+                }
+            }
+            $data['page'] =  $page;
+            $data['getproducts'] = $getproducts;
             return view('home.product.list',$data);
         }else if (!empty($getcategory)) {
             $data['getCategory'] =  $getcategory;
-            $data['getproducts'] =   Product::getproducts($getcategory->id);
+            $getproducts =   Product::getproducts($getcategory->id);
             $data['getsubcategoryfilter'] =  SubCategory::getRecordSubCategory($getcategory->id);
             // dd($data['getsubcategoryfilter']);
+
+
+            $page = 0;
+            if(!empty($getproducts->nextPageUrl())){
+                $parse_url = parse_url($getproducts->nextPageUrl());
+               // dd($getproducts->nextPageUrl());
+                if(!empty($parse_url['query'])){
+                    parse_str($parse_url['query'],$get_array);
+                    $page = !empty($get_array['page']) ? $get_array['page'] : 0;
+
+                }
+            }
+            $data['page'] =  $page;
+            $data['getproducts'] = $getproducts;
+            // dd($page);
             return view('home.product.list',$data);
         }
         else{
@@ -56,15 +90,32 @@ class ProductController extends Controller
     {
         // dd($request->all());
         $getproducts =   Product::getproducts();
+        $page = 0;
+        if(!empty($getproducts->nextPageUrl())){
+            $parse_url = parse_url($getproducts->nextPageUrl());
+           // dd($getproducts->nextPageUrl());
+            if(!empty($parse_url['query'])){
+                parse_str($parse_url['query'],$get_array);
+                $page = !empty($get_array['page']) ? $get_array['page'] : 0;
 
+            }
+        }
+        // $data['page'] =  $page;
+        // $data['getproducts'] = $getproducts;
         //dd($getproducts);
-         return response()->json([
-            "status" =>true,
-            "success" => view('home.product._list',[
-                "getproducts" =>  $getproducts,
+        if(!empty( $getproducts)){
+            return response()->json([
+                "status" =>true,
+                "page" => $page,
+                "success" => view('home.product._list',[
+                    "getproducts" =>  $getproducts,
 
-            ])->render(),
-         ],200);
+
+                ])
+
+                ->render(),
+             ],200);
+        }
 
     }
 

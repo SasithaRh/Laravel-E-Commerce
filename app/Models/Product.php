@@ -51,6 +51,13 @@ class Product extends Model
             $subcategory_id_array = explode(",",$subcategory_id);
 
             $return =  $return->whereIn('products.sub_category_id', $subcategory_id_array);
+        }else{
+            if (!empty(Request::get('old_category_id'))) {
+                $return =  $return->where('products.category_id', '=', Request::get('old_category_id'));
+            }
+            if (!empty(Request::get('old_subcategory_id'))) {
+                $return =  $return->where('products.sub_category_id', '=',Request::get('old_subcategory_id'));
+            }
         }
         if (!empty(Request::get('brand_id'))) {
             $brand_id =rtrim(Request::get('brand_id'),',');
@@ -79,11 +86,14 @@ class Product extends Model
         ->where('products.status', '=', 1)
          ->groupBy('products.id')
         ->orderBy('products.id', 'desc')
-        ->paginate(9);
+        ->paginate(3);
 
         return $return;
     }
 
+    static public function getproductsingle($slug)  {
+        return Product::where('slug','=',$slug)->where('products.is_delete', '=', 0)->where('products.status', '=', 1)->first();
+    }
         public function getColor()
         {
             return $this->hasMany(Prodct_Color::class, 'product_id');

@@ -71,7 +71,9 @@
 
 
     </div><!-- End .row -->
-    <div class="d-flex justify-content-center" style="margin-top: 20px;">
+    {{-- {{ $page  }} --}}
+     {{-- <div class="d-flex justify-content-center" style="margin-top: 20px;">
         {{ $getproducts->links() }}
-    </div>
+    </div> --}}
+
 </div><!-- End .products -->

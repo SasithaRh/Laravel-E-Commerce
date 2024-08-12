@@ -40,7 +40,7 @@
                     <div class="toolbox">
                         <div class="toolbox-left">
                             <div class="toolbox-info">
-                                Showing <span>9 of 56</span> Products
+                                Showing <span>{{ $getproducts->perPage() }} of {{ $getproducts->total() }}</span> Products
                             </div><!-- End .toolbox-info -->
                         </div><!-- End .toolbox-left -->
 
@@ -62,6 +62,9 @@
                     <div id="getproductajax">
                     @include('home.product._list');
                    </div>
+                   <div class="text-center">
+                   <a href="javascript:;" data-page="{{ $page }}" @if(empty($page)) style="display:none" @endif class="btn btn-primary LoadMore" >Load More</a>
+                </div>
                     {{-- <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
@@ -84,6 +87,8 @@
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" id="filterform">
                         {{ csrf_field() }}
+                        <input type="hidden" name="old_category_id" value="{{!empty($getCategory) ? $getCategory->id : ''}}" >
+                        <input type="hidden" name="old_subcategory_id" value="{{ !empty($getsubcategory) ? $getsubcategory->id : '' }}" >
                         <input type="hidden" name="sub_category_id" id="get_sub_category_id">
                         <input type="hidden" name="brand_id" id="get_brand_id">
                         <input type="hidden" name="color_id" id="get_color_id">
@@ -326,20 +331,31 @@
             $('#get_sort_by').val(id);
             FilterForm()
             });
+var xhr;
             function FilterForm() {
-                  $.ajax({
+                if(xhr && xhr.readyState !=4){
+                    xhr.abort();
+                }
+             xhr = $.ajax({
             type: "POST",
             url: "{{ url('get_product_filter') }}",
             data: $('#filterform').serialize(),
             dataType: "json",
             success: function(data) {
                 $('#getproductajax').html(data.success);
+                $('.LoadMore').attr('data-page',data.page);
+                if(data.page == 0){
+                    $('.LoadMore').hide();
+                }else{
+                    $('.LoadMore').show();
+                }
             },
             error: function(data) {
 
             }
         })
         };
+        var i = 0;
         if ( typeof noUiSlider === 'object' ) {
 		var priceSlider  = document.getElementById('price-slider');
 
@@ -369,8 +385,40 @@
 
 			$('#get_start_price').val(start_price);
             $('#get_end_price').val(end_price);
-            FilterForm();
+            if(i==0 || i==1){
+                i++;
+            }else{FilterForm();}
+
 		});
+
+        $('.LoadMore').click(function (e) {
+            e.preventDefault();
+            var page  = $(this).attr('data-page');
+            $('.LoadMore').html("Loading ...");
+            if(xhr && xhr.readyState !=4){
+                    xhr.abort();
+                }
+             xhr = $.ajax({
+            type: "POST",
+            url: "{{ url('get_product_filter') }}?page="+page,
+            data: $('#filterform').serialize(),
+            dataType: "json",
+            success: function(data) {
+                $('#getproductajax').append(data.success);
+                $('.LoadMore').attr('data-page',data.page);
+                $('.LoadMore').html("Load More");
+                if(data.page == 0){
+                    $('.LoadMore').hide();
+                }else{
+                    $('.LoadMore').show();
+                }
+            },
+            error: function(data) {
+
+            }
+        })
+
+        });
 	}
 
 
