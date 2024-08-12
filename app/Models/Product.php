@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Prodct_Color;
 use App\Models\Prodct_Size;
 use App\Models\Prodct_Image;
+use App\Models\Category;
 use Request;
 class Product extends Model
 {
@@ -94,6 +95,22 @@ class Product extends Model
     static public function getproductsingle($slug)  {
         return Product::where('slug','=',$slug)->where('products.is_delete', '=', 0)->where('products.status', '=', 1)->first();
     }
+    static public function getRelatedProduct($product_id,$sub_category_id)  {
+        $return = self::select('products.*', 'users.name as created_by','categories.slug as category_slug','categories.name as category_name','sub_categories.name as sub_category_name','sub_categories.slug as slugs')
+        ->join('users', 'users.id', '=', 'products.created_by')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+        ->where('products.id', '!=', $product_id)
+        // ->where('products.sub_category_id', '!=', $sub_category_id)
+       ->where('products.is_delete', '=', 0)
+        ->where('products.status', '=', 1)
+         ->groupBy('products.id')
+        ->orderBy('products.id', 'desc')
+        ->limit(10)
+        ->get();
+
+        return $return;
+    }
         public function getColor()
         {
             return $this->hasMany(Prodct_Color::class, 'product_id');
@@ -106,10 +123,23 @@ class Product extends Model
         {
             return $this->hasMany(Prodct_Image::class, 'prodcut_id');
         }
+
+        public function getCategory()
+        {
+            return $this->belongsTo(Category::class, 'category_id');
+
+        }
+        public function getSubCategory()
+        {
+            return $this->belongsTo(SubCategory::class, 'sub_category_id');
+
+        }
+
         static public function getImageSingle($prodcut_id)
         {
             return Prodct_Image::where('prodcut_id','=',$prodcut_id)->first();
         }
+
         static public function getAllImage($prodcut_id)  {
             return Prodct_Image::where('prodcut_id','=',$prodcut_id)->get();
        }

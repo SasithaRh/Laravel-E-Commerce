@@ -12,9 +12,11 @@
     <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
         <div class="container d-flex align-items-center">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Extended Description</li>
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ $getproductsingle->getCategory->slug }}">{{ $getproductsingle->getCategory->name }}</a></li>
+                <li class="breadcrumb-item" ><a href="{{  $getproductsingle->getCategory->slug.'/'.$getproductsingle->getSubCategory->slug }}">{{ $getproductsingle->getSubCategory->name }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $getproductsingle->title }}</li>
+
             </ol>
 
             <nav class="product-pager ml-auto" aria-label="Product">
@@ -38,7 +40,12 @@
                     <div class="col-md-6">
                         <div class="product-gallery">
                             <figure class="product-main-image">
-                                <img id="product-zoom" src="{{ asset('assest/assets/images/products/single/extended/3.jpg')}}" data-zoom-image="{{ asset('assest/assets/images/products/single/extended/3-big.jpg')}}" alt="product image">
+                                @php
+                                $getproductimage = $getproductsingle->getImageSingle($getproductsingle->id);
+                                //$getallproductimage = $product->getAllImage($product->id);
+
+                            @endphp
+                                <img id="product-zoom" src="{{ asset('storage/upload/products/' . $getproductimage->image_name) }}" data-zoom-image="{{ asset('storage/upload/products/' . $getproductimage->image_name) }}" alt="product image">
 
                                 <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                     <i class="icon-arrows"></i>
@@ -46,21 +53,13 @@
                             </figure><!-- End .product-main-image -->
 
                             <div id="product-zoom-gallery" class="product-image-gallery">
-                                <a class="product-gallery-item" href="#" data-image="assets/images/products/single/extended/1.jpg" data-zoom-image="assets/images/products/single/extended/1-big.jpg">
-                                    <img src="{{ asset('assest/assets/images/products/single/extended/1-small.jpg')}}" alt="product side">
+                                @foreach ($getproductsingle->getImage as $Image )
+                                <a class="product-gallery-item" href="#" data-image="{{ asset('storage/upload/products/' . $Image->image_name) }}" data-zoom-image="{{ asset('storage/upload/products/' . $Image->image_name) }}">
+                                    <img src="{{ asset('storage/upload/products/' . $Image->image_name) }}" alt="product side" >
                                 </a>
+                                @endforeach
 
-                                <a class="product-gallery-item" href="#" data-image="assets/images/products/single/extended/2.jpg" data-zoom-image="assets/images/products/single/extended/2-big.jpg">
-                                    <img src="{{ asset('assest/assets/images/products/single/extended/2-small.jpg')}}" alt="product cross">
-                                </a>
 
-                                <a class="product-gallery-item active" href="#" data-image="assets/images/products/single/extended/3.jpg" data-zoom-image="assets/images/products/single/extended/3-big.jpg">
-                                    <img src="{{ asset('assest/assets/images/products/single/extended/3-small.jpg')}}" alt="product with model">
-                                </a>
-
-                                <a class="product-gallery-item" href="#" data-image="assets/images/products/single/extended/4.jpg" data-zoom-image="assets/images/products/single/extended/4-big.jpg">
-                                    <img src="{{ asset('assest/assets/images/products/single/extended/4-small.jpg')}}" alt="product back">
-                                </a>
 
                             </div><!-- End .product-image-gallery -->
                         </div><!-- End .product-gallery -->
@@ -68,7 +67,7 @@
 
                     <div class="col-md-6">
                         <div class="product-details">
-                            <h1 class="product-title">Yellow tie strap block heel sandals</h1><!-- End .product-title -->
+                            <h1 class="product-title">{{ $getproductsingle->title }}</h1><!-- End .product-title -->
 
                             <div class="ratings-container">
                                 <div class="ratings">
@@ -78,33 +77,34 @@
                             </div><!-- End .rating-container -->
 
                             <div class="product-price">
-                                $70.00
+                                ${{ $getproductsingle->price }}
                             </div><!-- End .product-price -->
 
                             <div class="product-content">
-                                <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing. Sed lectus. </p>
+                                <p> {!! $getproductsingle->short_description  !!}</p>
                             </div><!-- End .product-content -->
 
                             <div class="details-filter-row details-row-size">
                                 <label>Color:</label>
 
                                 <div class="product-nav product-nav-dots">
-                                    <a href="#" class="active" style="background: #eab656;"><span class="sr-only">Color name</span></a>
-                                    <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                                    <a href="#" style="background: #3a588b;"><span class="sr-only">Color name</span></a>
-                                    <a href="#" style="background: #caab97;"><span class="sr-only">Color name</span></a>
-                                </div><!-- End .product-nav -->
+                                    @foreach ($getproductsingle->getColor as $color )
+                                    <a href="#" class="active" style="background: {{ $color->getColor->code }};"><span class="sr-only">Color name</span></a>
+
+                                    @endforeach
+                                   </div><!-- End .product-nav -->
                             </div><!-- End .details-filter-row -->
 
                             <div class="details-filter-row details-row-size">
                                 <label for="size">Size:</label>
                                 <div class="select-custom">
                                     <select name="size" id="size" class="form-control">
+
                                         <option value="#" selected="selected">Select a size</option>
-                                        <option value="s">Small</option>
-                                        <option value="m">Medium</option>
-                                        <option value="l">Large</option>
-                                        <option value="xl">Extra Large</option>
+                                        @foreach ($getproductsingle->getSize as $Size )
+                                        <option value="{{ $Size->id }}">{{ $Size->name }}</option>
+                                        @endforeach
+
                                     </select>
                                 </div><!-- End .select-custom -->
 
@@ -130,10 +130,10 @@
                             <div class="product-details-footer">
                                 <div class="product-cat">
                                     <span>Category:</span>
-                                    <a href="#">Women</a>,
-                                    <a href="#">Shoes</a>,
-                                    <a href="#">Sandals</a>,
-                                    <a href="#">Yellow</a>
+                                   <a href="{{ $getproductsingle->getCategory->slug }}">{{ $getproductsingle->getCategory->name }}</a>,
+                <a href="{{  $getproductsingle->getCategory->slug.'/'.$getproductsingle->getSubCategory->slug }}">{{ $getproductsingle->getSubCategory->name }}</a>,
+                {{ $getproductsingle->title }}
+
                                 </div><!-- End .product-cat -->
 
                                 <div class="social-icons social-icons-sm">
@@ -171,87 +171,23 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
                     <div class="product-desc-content">
-                        <div class="product-desc-row bg-image"  style="background-image: url('assets/images/products/single/extended/bg-1.jpg')">
-                            <div class="container">
-                                <div class="row justify-content-end">
-                                    <div class="col-sm-6 col-lg-4">
-                                        <h2>Product Information</h2>
-                                        <ul>
-                                            <li>Faux suede fabric upper</li>
-                                            <li>Tie strap buckle detail</li>
-                                            <li>Block heel</li>
-                                            <li>Open toe</li>
-                                            <li>Heel Height: 7cm / 2.5 inches</li>
-                                        </ul>
-                                    </div><!-- End .col-lg-4 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .container -->
-                        </div><!-- End .product-desc-row -->
-
-                        <div class="product-desc-row bg-image text-white"  style="background-image: url('assets/images/products/single/extended/bg-2.jpg')">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h2>Design</h2>
-                                        <p>The perfect choice for the summer months. These wedges are perfect for holidays and home, with the thick cross-over strap design and heel strap with an adjustable buckle fastening. Featuring chunky soles with an espadrille and cork-style wedge. </p>
-                                    </div><!-- End .col-md-6 -->
-
-                                    <div class="col-md-6">
-                                        <h2>Fabric & care</h2>
-                                        <p>As part of our Forever Comfort collection, these wedges have ultimate cushioning with soft padding and flexi soles. Perfect for strolls into the old town on holiday or a casual wander into the village.</p>
-                                    </div><!-- End .col-md-6 -->
-                                </div><!-- End .row -->
-
-                                <div class="mb-5"></div><!-- End .mb-3 -->
-
-                                <img src="assets/images/products/single/extended/sign.png" alt="" class="ml-auto mr-auto">
-                            </div><!-- End .container -->
-                        </div><!-- End .product-desc-row -->
-
-                        <div class="product-desc-row bg-image"  style="background-image: url('assets/images/products/single/extended/bg-3.jpg')">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <blockquote>
-                                            <p>“ Everything is important - <br>that success is in the details. ”</p>
-
-                                            <cite>– Steve Jobs</cite>
-                                        </blockquote>
-                                        <p>Nullam mollis. Ut justo. Suspendisse potenti. Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. </p>
-                                    </div><!-- End .col-lg-5 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .container -->
-                        </div><!-- End .product-desc-row -->
+                        <div class="container">
+                            {!! $getproductsingle->description !!}
+                        </div><!-- End .container -->
                     </div><!-- End .product-desc-content -->
                 </div><!-- .End .tab-pane -->
                 <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
                     <div class="product-desc-content">
                         <div class="container">
-                            <h3>Information</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. </p>
-
-                            <h3>Fabric & care</h3>
-                            <ul>
-                                <li>Faux suede fabric</li>
-                                <li>Gold tone metal hoop handles.</li>
-                                <li>RI branding</li>
-                                <li>Snake print trim interior </li>
-                                <li>Adjustable cross body strap</li>
-                                <li> Height: 31cm; Width: 32cm; Depth: 12cm; Handle Drop: 61cm</li>
-                            </ul>
-
-                            <h3>Size</h3>
-                            <p>one size</p>
+                           {!! $getproductsingle->additional_information !!}
                         </div><!-- End .container -->
                     </div><!-- End .product-desc-content -->
                 </div><!-- .End .tab-pane -->
                 <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
                     <div class="product-desc-content">
                         <div class="container">
-                            <h3>Delivery & returns</h3>
-                            <p>We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our <a href="#">Delivery information</a><br>
-                            We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <a href="#">Returns information</a></p>
-                        </div><!-- End .container -->
+                            {!! $getproductsingle->shipping_return !!}
+                        </div>
                     </div><!-- End .product-desc-content -->
                 </div><!-- .End .tab-pane -->
                 <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
@@ -343,11 +279,17 @@
                         }
                     }
                 }'>
+                @foreach ($getRelatedProduct as $RelatedProduct )
                 <div class="product product-7">
                     <figure class="product-media">
                         <span class="product-label label-new">New</span>
-                        <a href="product.html">
-                            <img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">
+                        @php
+                        $getproductimages = $RelatedProduct->getImageSingle($RelatedProduct->id);
+
+                        @endphp
+
+                        <a href="{{ url($RelatedProduct->slug) }}">
+                            <img src="{{ asset('storage/upload/products/' . $getproductimages->image_name) }}" alt="Product image" class="product-image">
                         </a>
 
                         <div class="product-action-vertical">
@@ -365,9 +307,9 @@
                         <div class="product-cat">
                             <a href="#">Women</a>
                         </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Brown paperbag waist <br>pencil skirt</a></h3><!-- End .product-title -->
+                        <h3 class="product-title"><a href="{{ url($RelatedProduct->slug) }}">{{  $RelatedProduct->title}} <br>pencil skirt</a></h3><!-- End .product-title -->
                         <div class="product-price">
-                            $60.00
+                            ${{  $RelatedProduct->price}}
                         </div><!-- End .product-price -->
                         <div class="ratings-container">
                             <div class="ratings">
@@ -383,150 +325,10 @@
                         </div><!-- End .product-nav -->
                     </div><!-- End .product-body -->
                 </div><!-- End .product -->
+                @endforeach
 
-                <div class="product product-7">
-                    <figure class="product-media">
-                        <span class="product-label label-out">Out of Stock</span>
-                        <a href="product.html">
-                            <img src="assets/images/products/product-6.jpg" alt="Product image" class="product-image">
-                        </a>
 
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                        </div><!-- End .product-action-vertical -->
 
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div><!-- End .product-action -->
-                    </figure><!-- End .product-media -->
-
-                    <div class="product-body">
-                        <div class="product-cat">
-                            <a href="#">Jackets</a>
-                        </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Khaki utility boiler jumpsuit</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            <span class="out-price">$120.00</span>
-                        </div><!-- End .product-price -->
-                        <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                            </div><!-- End .ratings -->
-                            <span class="ratings-text">( 6 Reviews )</span>
-                        </div><!-- End .rating-container -->
-                    </div><!-- End .product-body -->
-                </div><!-- End .product -->
-
-                <div class="product product-7">
-                    <figure class="product-media">
-                        <span class="product-label label-top">Top</span>
-                        <a href="product.html">
-                            <img src="assets/images/products/product-11.jpg" alt="Product image" class="product-image">
-                        </a>
-
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                        </div><!-- End .product-action-vertical -->
-
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div><!-- End .product-action -->
-                    </figure><!-- End .product-media -->
-
-                    <div class="product-body">
-                        <div class="product-cat">
-                            <a href="#">Shoes</a>
-                        </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Light brown studded Wide fit wedges</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            $110.00
-                        </div><!-- End .product-price -->
-                        <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                            </div><!-- End .ratings -->
-                            <span class="ratings-text">( 1 Reviews )</span>
-                        </div><!-- End .rating-container -->
-
-                        <div class="product-nav product-nav-dots">
-                            <a href="#" class="active" style="background: #8b513d;"><span class="sr-only">Color name</span></a>
-                            <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                            <a href="#" style="background: #d2b99a;"><span class="sr-only">Color name</span></a>
-                        </div><!-- End .product-nav -->
-                    </div><!-- End .product-body -->
-                </div><!-- End .product -->
-
-                <div class="product product-7">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="assets/images/products/product-10.jpg" alt="Product image" class="product-image">
-                        </a>
-
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                        </div><!-- End .product-action-vertical -->
-
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div><!-- End .product-action -->
-                    </figure><!-- End .product-media -->
-
-                    <div class="product-body">
-                        <div class="product-cat">
-                            <a href="#">Jumpers</a>
-                        </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Yellow button front tea top</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            $56.00
-                        </div><!-- End .product-price -->
-                        <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                            </div><!-- End .ratings -->
-                            <span class="ratings-text">( 0 Reviews )</span>
-                        </div><!-- End .rating-container -->
-                    </div><!-- End .product-body -->
-                </div><!-- End .product -->
-
-                <div class="product product-7">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="assets/images/products/product-7.jpg" alt="Product image" class="product-image">
-                        </a>
-
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                        </div><!-- End .product-action-vertical -->
-
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                        </div><!-- End .product-action -->
-                    </figure><!-- End .product-media -->
-
-                    <div class="product-body">
-                        <div class="product-cat">
-                            <a href="#">Jeans</a>
-                        </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="product.html">Blue utility pinafore denim dress</a></h3><!-- End .product-title -->
-                        <div class="product-price">
-                            $76.00
-                        </div><!-- End .product-price -->
-                        <div class="ratings-container">
-                            <div class="ratings">
-                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                            </div><!-- End .ratings -->
-                            <span class="ratings-text">( 2 Reviews )</span>
-                        </div><!-- End .rating-container -->
-                    </div><!-- End .product-body -->
-                </div><!-- End .product -->
             </div><!-- End .owl-carousel -->
         </div><!-- End .container -->
     </div><!-- End .page-content -->
@@ -534,8 +336,9 @@
 @endsection
 
         @section('script')
-        <script src="{{ asset('assest/assets/js/superfish.min.js')}}"></script>
+
         <script src="{{ asset('assest/assets/js/owl.carousel.min.js')}}"></script>
         <script src="{{ asset('assest/assets/js/jquery.magnific-popup.min.js')}}"></script>
         <script src="{{ asset('assest/assets/js/jquery.elevateZoom.min.js')}}"></script>
+        <script src="{{ asset('assest/assets/js/bootstrap-input-spinner.js')}}"></script>
         @endsection

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Prodct_Size extends Model
 {
     use HasFactory;
+
 }
