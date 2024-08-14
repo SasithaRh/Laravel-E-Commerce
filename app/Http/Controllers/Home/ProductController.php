@@ -15,6 +15,29 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function getProductsearch(Request $request)  {
+       // dd($request->all());
+
+        $getproducts =   Product::getproducts();
+
+        $data['getcolors'] =   Color::getcolors();
+        $data['getbrands'] =   Brand::getbrands();
+
+        $page = 0;
+        if(!empty($getproducts->nextPageUrl())){
+            $parse_url = parse_url($getproducts->nextPageUrl());
+           // dd($getproducts->nextPageUrl());
+            if(!empty($parse_url['query'])){
+                parse_str($parse_url['query'],$get_array);
+                $page = !empty($get_array['page']) ? $get_array['page'] : 0;
+
+            }
+        }
+        $data['page'] =  $page;
+        $data['getproducts'] = $getproducts;
+        // dd($page);
+        return view('home.product.list',$data);
+    }
     public function getCategory($slug,$subslug="")
     {
 
@@ -123,6 +146,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
+
     public function store(Request $request)
     {
         //

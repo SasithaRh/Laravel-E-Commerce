@@ -13,8 +13,10 @@
         <div class="container">
             @if(!empty($getsubcategory))
              <h1 class="page-title">{{ $getsubcategory->name }}<span>Shop</span></h1>
-             @else
+             @elseif (!empty($getCategory))
              <h1 class="page-title">{{ $getCategory->name }}<span>Shop</span></h1>
+             @else
+             <h1 class="page-title">Search : {{ Request::get('q') }}<span>Shop</span></h1>
              @endif
         </div><!-- End .container -->
     </div><!-- End .page-header -->
@@ -23,9 +25,12 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route("home") }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="javascript:;">Shop</a></li>
+                @if(!empty($getCategory))
                 <li class="breadcrumb-item active" aria-current="page"><a href="{{ url($getCategory->slug) }}">{{ $getCategory->name }}</a> </li>
-                @if(!empty($getsubcategory))
+
+                @elseif(!empty($getsubcategory))
                 <li class="breadcrumb-item active" aria-current="page">{{ $getsubcategory->name }}</li>
+
                  @endif
 
 
@@ -87,6 +92,8 @@
                 <aside class="col-lg-3 order-lg-first">
                     <form action="" method="post" id="filterform">
                         {{ csrf_field() }}
+                        <input type="hidden" name="q" value="{{!empty(Request::get('q')) ? Request::get('q') : ''}}" >
+                        <input type="hidden" name="old_subcategory_id" value="{{ !empty($getsubcategory) ? $getsubcategory->id : '' }}" >
                         <input type="hidden" name="old_category_id" value="{{!empty($getCategory) ? $getCategory->id : ''}}" >
                         <input type="hidden" name="old_subcategory_id" value="{{ !empty($getsubcategory) ? $getsubcategory->id : '' }}" >
                         <input type="hidden" name="sub_category_id" id="get_sub_category_id">
@@ -101,7 +108,7 @@
                             <label>Filters:</label>
                             <a href="#" class="sidebar-filter-clear">Clean All</a>
                         </div><!-- End .widget widget-clean -->
-
+                        @if (!empty($getsubcategoryfilter))
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
@@ -109,9 +116,12 @@
                                 </a>
                             </h3><!-- End .widget-title -->
 
+
+
                             <div class="collapse show" id="widget-1">
                                 <div class="widget-body">
                                     <div class="filter-items filter-items-count">
+
                                         @foreach ($getsubcategoryfilter as  $f_category)
                                         <div class="filter-item">
                                             <div class="custom-control custom-checkbox">
@@ -128,7 +138,7 @@
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
-
+                        @endif
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
@@ -184,7 +194,7 @@
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
-
+                        @if (!empty($getcolors))
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true" aria-controls="widget-3">
@@ -203,14 +213,14 @@
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
-
+                        @endif
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
                                     Brand
                                 </a>
                             </h3><!-- End .widget-title -->
-
+                            @if (!empty($getbrands))
                             <div class="collapse show" id="widget-4">
                                 <div class="widget-body">
                                     <div class="filter-items">
@@ -229,7 +239,7 @@
                                 </div><!-- End .widget-body -->
                             </div><!-- End .collapse -->
                         </div><!-- End .widget -->
-
+@endif
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">

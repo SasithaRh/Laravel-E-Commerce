@@ -83,6 +83,9 @@ class Product extends Model
             $return =  $return->where('products.price', '<=', $end_price);
             // dd($start_price.$end_price);
         }
+        if(!empty(Request::get('q'))){
+            $return =  $return->where('products.title', 'like','%'.(Request::get('q').'%'));
+        }
         $return =  $return->where('products.is_delete', '=', 0)
         ->where('products.status', '=', 1)
          ->groupBy('products.id')
@@ -90,7 +93,9 @@ class Product extends Model
         ->paginate(3);
 
         return $return;
+
     }
+
 
     static public function getproductsingle($slug)  {
         return Product::where('slug','=',$slug)->where('products.is_delete', '=', 0)->where('products.status', '=', 1)->first();

@@ -91,8 +91,9 @@ Route::group(['middleware'=>'admin'],function () {
 
 
 });
-
+Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
+
 
