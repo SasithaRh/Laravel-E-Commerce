@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Home\ProductController as ProductFront;
-
+use App\Http\Controllers\Home\PaymentController;
 
 
 /*
@@ -92,8 +92,12 @@ Route::group(['middleware'=>'admin'],function () {
 
 });
 Route::get('search',[ProductFront::class,'getProductsearch']);
+Route::get('cart',[PaymentController::class,'cart'])->name('cart');
+Route::get('cart/delete/{id}',[PaymentController::class,'cart_delete'])->name('cart.delete');
+Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart');
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
+Route::post('prodcut/add-to-cart',[PaymentController::class,'addtocart'])->name('prodcut/add-to-cart');
 
 
