@@ -20,6 +20,11 @@ class PaymentController extends Controller
         return view('home.payment.cart');
 
      }
+     public function checkout(Request $request)  {
+        //dd(Cart::getContent());
+        return view('home.payment.checkout');
+
+     }
      public function cart_delete($id) {
        // dd($id);
         Cart::remove($id);

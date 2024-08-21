@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
@@ -89,12 +90,20 @@ Route::group(['middleware'=>'admin'],function () {
     Route::put('admin/color/edit/{item}', [ColorController::class, 'update'])->name('update.color');
     Route::get('admin/color/list/{item}', [ColorController::class, 'destroy'])->name('delete.color');
 
+    Route::get('admin/discountcode/list',[DiscountCodeController::class,'index'])->name('discountcode');
+    // Route::get('admin/discountcode/add',[DiscountCodeController::class,'create'])->name('create.discountcode');
+    // Route::post('admin/discountcode/add',[DiscountCodeController::class,'store'])->name('store.discountcode');
+    // Route::get('admin/discountcode/edit/{id}',[DiscountCodeController::class,'edit'])->name('edit.discountcode');
+    // Route::put('admin/discountcode/edit/{item}', [DiscountCodeController::class, 'update'])->name('update.discountcode');
+    // Route::get('admin/discountcode/list/{item}', [DiscountCodeController::class, 'destroy'])->name('delete.discountcode');
+
 
 });
 Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('cart',[PaymentController::class,'cart'])->name('cart');
 Route::get('cart/delete/{id}',[PaymentController::class,'cart_delete'])->name('cart.delete');
 Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart');
+Route::get('checkout',[PaymentController::class,'checkout'])->name('checkout');
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
