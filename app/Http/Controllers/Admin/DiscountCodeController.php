@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DiscountCode;
 use App\Http\Requests\StoreDiscountCodeRequest;
 use App\Http\Requests\UpdateDiscountCodeRequest;
-
+use Illuminate\Http\Request;
 class DiscountCodeController extends Controller
 {
     /**
@@ -15,10 +15,10 @@ class DiscountCodeController extends Controller
     public function index()
     {
         $data['header_title'] = 'Discount Code';
-        $details = DiscountCode::select('discount_code.*')
-        ->where('discount_code.is_delete', '=', 0)
-        ->where('discount_code.status', '=', 1)
-        ->orderBy('discount_code.id', 'desc')
+        $details = DiscountCode::select('discount_codes.*')
+        ->where('discount_codes.is_delete', '=', 0)
+
+        ->orderBy('discount_codes.id', 'desc')
         ->paginate(5);
 
         return view('admin.discountcode.list',$data,compact('details'));
@@ -30,7 +30,7 @@ class DiscountCodeController extends Controller
     public function create()
     {
         $data['header_title'] = 'Add New Discount Code';
-        return view('admin.color.add',$data);
+        return view('admin.discountcode.add',$data);
     }
 
     /**
@@ -38,6 +38,7 @@ class DiscountCodeController extends Controller
      */
     public function store(StoreDiscountCodeRequest $request)
     {
+        //dd($request->all());
         $data = $request->validated();
 
 
@@ -68,8 +69,9 @@ class DiscountCodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDiscountCodeRequest $request, DiscountCode $discountCode)
+    public function update(UpdateDiscountCodeRequest $request, DiscountCode $item)
     {
+       // dd($request->all());
         $data = $request->validated();
 
 

@@ -24,8 +24,10 @@ class StoreDiscountCodeRequest extends FormRequest
         return [
             "name" => ["required", "string", "max:255"],
             "type" => ["required", "string", "max:255"],
-            "status"=>["required","boolean"],
-            "code" => ["required", "string"],
+            "percent_amount" => ["required", "string", "max:255"],
+            "expire_date" => ["required", "string", "max:255"],
+            "status"=>["required","boolean"]
+
 
             ];
     }

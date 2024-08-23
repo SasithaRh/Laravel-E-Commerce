@@ -91,22 +91,30 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/color/list/{item}', [ColorController::class, 'destroy'])->name('delete.color');
 
     Route::get('admin/discountcode/list',[DiscountCodeController::class,'index'])->name('discountcode');
-    // Route::get('admin/discountcode/add',[DiscountCodeController::class,'create'])->name('create.discountcode');
-    // Route::post('admin/discountcode/add',[DiscountCodeController::class,'store'])->name('store.discountcode');
-    // Route::get('admin/discountcode/edit/{id}',[DiscountCodeController::class,'edit'])->name('edit.discountcode');
-    // Route::put('admin/discountcode/edit/{item}', [DiscountCodeController::class, 'update'])->name('update.discountcode');
-    // Route::get('admin/discountcode/list/{item}', [DiscountCodeController::class, 'destroy'])->name('delete.discountcode');
+    Route::get('admin/discountcode/add',[DiscountCodeController::class,'create'])->name('create.discountcode');
+    Route::post('admin/discountcode/add',[DiscountCodeController::class,'store'])->name('store.discountcode');
+    Route::get('admin/discountcode/edit/{id}',[DiscountCodeController::class,'edit'])->name('edit.discountcode');
+    Route::put('admin/discountcode/edit/{item}', [DiscountCodeController::class, 'update'])->name('update.discountcode');
+    Route::get('admin/discountcode/list/{item}', [DiscountCodeController::class, 'destroy'])->name('delete.discountcode');
 
 
 });
+Route::post('auth_register',[AuthController::class,'auth_register']);
+Route::post('auth_signin',[AuthController::class,'auth_signin']);
+Route::get('activate/{id}',[AuthController::class,'activate_email']);
+Route::get('logout',[AuthController::class,'user_logout'])->name('user_logout');
+
 Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('cart',[PaymentController::class,'cart'])->name('cart');
 Route::get('cart/delete/{id}',[PaymentController::class,'cart_delete'])->name('cart.delete');
 Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart');
 Route::get('checkout',[PaymentController::class,'checkout'])->name('checkout');
+Route::post('checkout/place_order',[PaymentController::class,'checkout_place_order'])->name('checkout/place_order');
+Route::post('checkout/apply_discount',[PaymentController::class,'apply_discount']);
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
 Route::post('prodcut/add-to-cart',[PaymentController::class,'addtocart'])->name('prodcut/add-to-cart');
+
 
 

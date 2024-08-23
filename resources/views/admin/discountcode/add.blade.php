@@ -7,13 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Add New Category</h1>
+                        <h1 class="m-0">Add New Discount Code</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item ">Category List</li>
-                            <li class="breadcrumb-item active">Add New Category</li>
+                            <li class="breadcrumb-item ">Discount Code List</li>
+                            <li class="breadcrumb-item active">Add New Discount Code</li>
 
                         </ol>
                     </div><!-- /.col -->
@@ -34,45 +34,42 @@
                             <!-- /.card-header -->
                             <!-- form start -->
 
-                            <form action="{{ route('store.category') }}" method="post">
+                            <form action="{{ route('store.discountcode') }}" method="post">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Category Name</label>
-                                        <input type="text" name="name" class="form-control" placeholder="Enter Category name">
+                                        <label for="exampleInputEmail1">Discount Code Name</label>
+                                        <input type="text" name="name" class="form-control" placeholder="Enter Discount Code name">
                                         @error('name')
                                             <span class="text-danger" align="center">{{ $message }}</span>
                                         @enderror
                                     </div>
 
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Discount Code Type</label>
+                                            <select name="type" class="form-control">
+                                                <option value="amount">Amount</option>
+                                                <option value="percent">Percent</option>
+                                            </select>
+                                            @error('type')
+                                                <span class="text-danger" align="center">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                    <div class="form-group">
-                                    <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="slug" class="form-control" placeholder="Enter Slug">
-                                    @error('slug')
+                                    <label for="exampleInputEmail1">Percent / Amount</label>
+                                    <input type="text" name="percent_amount" class="form-control" placeholder="Percent / Amount">
+                                    @error('percent_amount')
                                         <span class="text-danger" align="center">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Title</label>
-                                    <input type="text" name="meta_title" class="form-control" placeholder="Enter meta_title">
-                                    @error('meta_title')
+                                    <label for="exampleInputEmail1">Expire Date</label>
+                                    <input type="date" name="expire_date" class="form-control" placeholder="Enter meta_title">
+                                    @error('expire_date')
                                         <span class="text-danger" align="center">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Description</label>
-                                    <input type="text" name="meta_description" class="form-control" placeholder="Enter meta_description">
-                                    @error('meta_description')
-                                        <span class="text-danger" align="center">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Meta Keywords</label>
-                                    <input type="text" name="meta_keywords" class="form-control" placeholder="Enter meta_keywords">
-                                    @error('meta_keywords')
-                                        <span class="text-danger" align="center">{{ $message }}</span>
-                                    @enderror
-                                </div>
+
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Status</label>
                                         <select name="status" class="form-control">

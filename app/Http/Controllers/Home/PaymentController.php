@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Cart;
 use App\Models\Product;
+use App\Models\Order;
+use App\Models\Order_item;
 use App\Models\Prodct_Size;
-
+use App\Models\DiscountCode;
 
 class PaymentController extends Controller
 {
@@ -76,12 +78,61 @@ class PaymentController extends Controller
         return redirect()->back();
     }
 
+    public function apply_discount(Request $request) {
+
+       $DiscountCode= DiscountCode::checkDiscount($request->discount_code);
+       dd($DiscountCode["type"]);
+       if(!empty($DiscountCode)){
+        $total= Cart::getTotal();
+       // dd($total);
+        if($DiscountCode->type == "amount"){
+            $getDiscountCode = $DiscountCode->percent_amount;
+            $paybal_total = $total-$getDiscountCode;
+        }else{
+            $getDiscountCode =($total *$DiscountCode->percent_amount)/100;
+            $paybal_total = $total-$getDiscountCode;
+            dd($paybal_total);
+        }
+        dd( $paybal_total);
+        $json['status'] =true;
+        $json['discount_amount'] =$getDiscountCode;
+        $json['paybal_total'] =$paybal_total;
+        $json['message'] ="success";
+       }else{
+        $json['status'] =false;
+        $json['message'] ="Invalid Discount Code";
+       }
+       echo json_encode($json);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function checkout_place_order(Request $request)
     {
-        //
+       // dd( $request->all());
+
+        $save = new Order;
+        $save->first_name = $request->first_name;
+        $save->last_name = $request->last_name;
+        $save->company = $request->company;
+        $save->country = $request->country;
+        $save->address1 = $request->address1;
+        $save->address2 = $request->address2;
+        $save->city = $request->city;
+        $save->state = $request->state;
+        $save->pastcode = $request->pastcode;
+        $save->phone = $request->phone;
+        $save->email = $request->email;
+        $save->amount = $request->amount;
+        $save->note = $request->note;
+        $save->payment_method = $request->payment_method;
+        $save->save();
+
+ return redirect()->back();
+
+
     }
 
     /**

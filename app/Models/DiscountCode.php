@@ -8,20 +8,33 @@ use Illuminate\Database\Eloquent\Model;
 class DiscountCode extends Model
 {
     use HasFactory;
-    protected $table ="discount_code";
-    // protected $fillable = [
-    //     'name',
-    //     'status',
-    //     'code',
+   // protected $table ="discount_code";
+    protected $fillable = [
+        'name',
+        'type',
+        'percent_amount',
+        'expire_date',
+        'status',
+        'is_delete',
+        'create_at',
 
-    //     'created_by',
-    //     'is_delete'
-    // ];
+
+    ];
     static public function getcolors() {
-        return self::select('discount_code.*')
-        ->where('discount_code.is_delete', '=', 0)
-        ->where('discount_code.status', '=', 1)
-        ->orderBy('discount_code.id', 'desc')
+        return self::select('discount_codes.*')
+        ->where('discount_codes.is_delete', '=', 0)
+        ->where('discount_codes.status', '=', 1)
+        ->orderBy('discount_codes.id', 'desc')
         ->paginate(10);
     }
+    static public function checkDiscount($code) {
+        return self::select('discount_codes.*')
+        ->where('discount_codes.is_delete', '=', 0)
+        ->where('discount_codes.status', '=', 1)
+        ->where('discount_codes.name', '=',$code)
+        ->where('discount_codes.expire_date', '>=',date('Y-m-d'))
+
+        ->get();
+    }
+
 }

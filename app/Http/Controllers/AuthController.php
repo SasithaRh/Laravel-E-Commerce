@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use Hash;
 use Auth;
-
+use Mail;
+use App\Mail\RegisterMail;
 class AuthController extends Controller
 {
     /**
@@ -19,6 +21,68 @@ class AuthController extends Controller
 
         return view('admin.auth.login');
     }
+    public function auth_register(Request $request)
+    {
+       //dd($request->all());
+        $checkMail = User::select('users.*')
+        ->where('users.email', '=', $request->email)
+        ->first();
+        if(empty($checkMail)){
+
+            $save = new User;
+            $save->name = $request->name;
+            $save->email = $request->email;
+            $save->status = 1;
+            $save->password = Hash::make($request->password);
+            $save->save();
+
+            Mail::to($save->email)->send(new RegisterMail($save));
+            $json['status'] =true;
+            $json['message'] ="User Registered successfully. Please verify your email";
+
+        }else{
+            $json['status'] =false;
+            $json['message'] ="This Email already registered";
+        }
+        echo json_encode($json);
+    }
+    public function auth_signin(Request $request)
+    {
+       //dd($request->all());
+       $remember = !empty($request->is_remember) ? true:false;
+       if(Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status'=>1,'is_delete'=>0],$remember)){
+        if(!empty(Auth::user()->email_verified_at)){
+            $json['status'] =true;
+            $json['message'] ="Your successfully login";
+        }else{
+            $save = User::findOrFail(Auth::user()->$id);
+            Mail::to($save->email)->send(new RegisterMail($save));
+            Auth::logout();
+            $json['status'] =false;
+            $json['message'] ="Please verify your email";
+        }
+
+       }
+       else{
+        $json['status'] =false;
+        $json['message'] ="Please Enter Correct Email & Password";
+
+       }
+       echo json_encode($json);
+    }
+    public function user_logout()  {
+        Auth::logout();
+
+    return redirect('/');
+    }
+public function activate_email($id)  {
+    $id = base64_decode($id);
+    $user = User::findOrFail($id);
+    $user->email_verified_at= date('Y-m-d H:i:s');
+    $user->save();
+    return redirect('/')->with('success',"Email successfully verified");
+
+}
 
     public function auth_login_admin(Request $request)
     {

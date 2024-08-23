@@ -33,7 +33,12 @@
                             <li><a href="wishlist.html"><i class="icon-heart-o"></i>My Wishlist <span>(3)</span></a></li>
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
-                            <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                            @if (!empty(Auth::check()))
+                            <li><a href="{{ route('user_logout') }}">Log Out</a></li>
+                                @else
+                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+
+                            @endif
                         </ul>
                     </li>
                 </ul><!-- End .top-menu -->

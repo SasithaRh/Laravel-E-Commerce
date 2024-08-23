@@ -8,13 +8,13 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Edit Category Details</h1>
+              <h1 class="m-0">Edit Discount Code Details</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route("dashboard") }}">Home</a></li>
-                <li class="breadcrumb-item "><a href="{{ route("category") }}">Category List</a></li>
-                <li class="breadcrumb-item active">Edit Category Details</li>
+                <li class="breadcrumb-item "><a href="{{ route("discountcode") }}">Discount Code List</a></li>
+                <li class="breadcrumb-item active">Edit Discount Code Details</li>
 
               </ol>
             </div><!-- /.col -->
@@ -30,51 +30,49 @@
               <div class="card card-primary">
                 @include('admin.layouts.messages')
                 <div class="card-header">
-                  <h3 class="card-title">Category Details</h3>
+                  <h3 class="card-title">Discount Code Details</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
 
-                <form action="{{ route('update.category',$details['id']) }}" method="post">
+                <form action="{{ route('update.discountcode',$details['id']) }}" method="post">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="{{$details['id'] }}">
                   <div class="card-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Category Name</label>
-                        <input type="text" value="{{ $details->name }}" name="name" class="form-control"  placeholder="Enter Category name">
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Discount Code Name</label>
+                        <input type="text" value="{{ $details->name }}" name="name" class="form-control" placeholder="Enter Discount Code name">
                         @error('name')
+                            <span class="text-danger" align="center">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Discount Code Type</label>
+                        <select name="type" id="" class="form-control">
+                            <option {{ $details->type == 'amount' ? 'selected' :'' }} value="amount">Amount</option>
+                            <option {{ $details->type == 'percent' ? 'selected' :'' }} value="percent">Percent</option>
+                        </select>
+                        @error('type')
                         <span class="text-danger" align="center">{{ $message }}</span>
                      @enderror
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Slug</label>
-                        <input type="text" name="slug" value="{{ $details->slug }}" class="form-control" placeholder="Enter Slug">
-                        @error('slug')
-                            <span class="text-danger" align="center">{{ $message }}</span>
-                        @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Meta Title</label>
-                        <input type="text" name="meta_title" value="{{ $details->meta_title }}" class="form-control" placeholder="Enter meta_title">
-                        @error('meta_title')
-                            <span class="text-danger" align="center">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Meta Description</label>
-                        <input type="text" name="meta_description" value="{{ $details->meta_description }}" class="form-control" placeholder="Enter meta_description">
-                        @error('meta_description')
-                            <span class="text-danger" align="center">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Meta Keywords</label>
-                        <input type="text" name="meta_keywords" value="{{ $details->meta_keywords }}" class="form-control" placeholder="Enter meta_keywords">
-                        @error('meta_keywords')
-                            <span class="text-danger" align="center">{{ $message }}</span>
-                        @enderror
-                    </div>
+                   <div class="form-group">
+                    <label for="exampleInputEmail1">Percent / Amount</label>
+                    <input type="text" value="{{ $details->percent_amount }}" name="percent_amount" class="form-control" placeholder="Percent / Amount">
+                    @error('percent_amount')
+                        <span class="text-danger" align="center">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Expire Date</label>
+                    <input type="date" value="{{ $details->expire_date }}" name="expire_date" class="form-control" >
+                    @error('expire_date')
+                        <span class="text-danger" align="center">{{ $message }}</span>
+                    @enderror
+                </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Status</label>
                         <select name="status" id="" class="form-control">
