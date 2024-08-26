@@ -9,4 +9,8 @@ class Prodct_Size extends Model
 {
     use HasFactory;
 
+    static public function getSingle($slug) {
+        return self::where('id', '=', $slug)->first();
+    }
+
 }

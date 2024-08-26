@@ -24,4 +24,7 @@ class Color extends Model
         ->orderBy('colors.id', 'desc')
         ->get();
     }
+    static public function getSingle($slug) {
+        return self::where('id', '=', $slug)->first();
+    }
 }

@@ -12,6 +12,7 @@ class Prodct_Color extends Model
     public function getColor()
     {
         return $this->belongsTo(Color::class, 'color_id');
-
     }
+
+
 }

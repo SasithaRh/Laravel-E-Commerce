@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Prodct_Size;
+use App\Models\Color;
 use App\Models\DiscountCode;
 
 class PaymentController extends Controller
@@ -129,6 +130,29 @@ class PaymentController extends Controller
         $save->note = $request->note;
         $save->payment_method = $request->payment_method;
         $save->save();
+
+        foreach (Cart::getContent() as $key => $item ){
+           // dd($item);
+            // if(!empty($item->attributes->size_id)){
+                $getSize = Prodct_Size::getSingle($item->attributes->size_id);
+                $getColor =Color::getSingle($item->attributes->color_id);
+
+            // }
+           // dd($getColor->name);
+            $order_item = new Order_item;
+            $order_item->order_id = $save->id;
+            $order_item->product_id = $item->id;
+            $order_item->quantity = $item->quantity;
+            $order_item->price = $item->price;
+            $order_item->color_name = $getColor->name;
+            $order_item->size_name = !empty($getSize->name)?$getSize->name:"";
+            $order_item->size_amount = !empty($getSize->price)?$getSize->price:"";
+            $order_item->total_amount = $save->amount;
+            $order_item->save();
+            Cart::remove($item->id);
+        }
+
+
 
  return redirect()->back();
 
