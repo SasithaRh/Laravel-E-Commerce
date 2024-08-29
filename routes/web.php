@@ -51,6 +51,8 @@ Route::group(['middleware'=>'admin'],function () {
 
     Route::get('admin/order/list',[OrderController::class,'index'])->name('category');
     Route::get('admin/order/details/{id}',[OrderController::class,'details'])->name('details.order');
+    Route::get('admin/orders_status',[OrderController::class,'orders_status']);
+
 
     Route::get('admin/category/list',[CategoryController::class,'index'])->name('category');
     Route::get('admin/category/add',[CategoryController::class,'create'])->name('create.category');

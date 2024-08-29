@@ -67,9 +67,16 @@
                                 <td class="text-sm">{{ $detail['email'] }}</td>
                                 <td class="text-sm">$ {{ $detail['amount'] }}</td>
                                 <td class="text-sm">{{ $detail['payment_method'] }}</td>
-                                <td class="text-sm">{!! $detail['status'] == 1
-                                    ? '<p class="text-success text-bold">Active</p>'
-                                    : '<p class="text-danger text-bold">InActive</p>' !!}</td>
+                                <td class="text-sm">
+                                    <select name="status"  id="{{ $detail['id'] }}" class="form-control ChangeStatus">
+                                        <option {{ $detail->status === 0 ? 'selected' : '' }} value='0'>Pending</option>
+                                        <option {{ $detail->status === 1 ? 'selected' : '' }} value='1'>Inprogress</option>
+                                        <option {{ $detail->status === 2 ? 'selected' : '' }} value='2'>Delivered</option>
+                                        <option {{ $detail->status === 3 ? 'selected' : '' }} value='3'>Completed</option>
+                                        <option {{ $detail->status === 4 ? 'selected' : '' }} value='4'>Cancelled</option>
+                                    </select>
+                                </td>
+
                                 <td ><a href="{{ route('details.order', $detail['id']) }}"
                                     class="btn btn-primary btn-sm mr-1">Details</a>
                                 </td>
@@ -90,6 +97,33 @@
 @endsection
 
 @section('script')
+<script>
+
+
+                $('.ChangeStatus').change(function (e) {
+            e.preventDefault();
+            var status  = $('.ChangeStatus').val();
+            var order_id  = $(this).attr('id');
+
+             xhr = $.ajax({
+            type: "GET",
+            url: "{{ url('admin/orders_status') }}",
+            data: {
+
+                "status":status,
+                "order_id":order_id,
+            },
+            dataType: "json",
+            success: function(data) {
+                alert(data.message)
+            },
+            error: function(data) {
+
+            }
+        })
+    })
+
+</script>
     <script src="{{ asset('assest/dist/js/pages/dashboard3.js') }}"></script>
 
 @endsection

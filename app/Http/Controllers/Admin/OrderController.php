@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
-
+use App\Mail\OrderStatus;
+use Mail;
 class OrderController extends Controller
 {
     /**
@@ -32,9 +33,18 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function orders_status(Request $request)
     {
-        //
+      //  dd($request->all());
+        $details = Order::getDetail($request->order_id);
+       // dd($details);
+        $details->status = $request->status;
+        $details->save();
+       // $json['status'] =true;
+       Mail::to($details->email)->send(new OrderStatus($details));
+        $json['message'] ="Order Status Updated Successfully";
+        echo json_encode($json);
+
     }
 
     /**

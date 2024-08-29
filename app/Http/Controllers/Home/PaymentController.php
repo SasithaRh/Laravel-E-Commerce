@@ -11,7 +11,8 @@ use App\Models\Order_item;
 use App\Models\Prodct_Size;
 use App\Models\Color;
 use App\Models\DiscountCode;
-
+use App\Mail\OrderInvoiceMail;
+use Mail;
 class PaymentController extends Controller
 {
     /**
@@ -181,6 +182,9 @@ echo json_encode($json);
                 if($getOrder->payment_method == 'cod'){
                     $getOrder->is_payment =1;
                     $getOrder->save();
+
+                    Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
+die;
                     Cart::clear();
                  return redirect('cart')->with('success',"Order successfully placed");
                 }elseif($getOrder->payment_method == 'paypal'){
