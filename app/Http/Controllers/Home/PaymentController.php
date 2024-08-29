@@ -113,7 +113,7 @@ class PaymentController extends Controller
     public function checkout_place_order(Request $request)
     {
        // dd( $request->all());
-
+if(!empty($request->first_name)){
         $save = new Order;
         $save->first_name = $request->first_name;
         $save->last_name = $request->last_name;
@@ -149,12 +149,18 @@ class PaymentController extends Controller
             $order_item->size_amount = !empty($getSize->price)?$getSize->price:"";
             $order_item->total_amount = $save->amount;
             $order_item->save();
-            Cart::remove($item->id);
+           // Cart::remove($item->id);
         }
+        $json['status'] =true;
+        $json['message'] ="success";
+        $order_id = base64_encode($save->id);
 
+// Use Laravel's redirect helper
+return redirect()->to('checkout/payment?order_id=' . $order_id);
 
-
- return redirect()->back();
+    }
+echo json_encode($json);
+//  return redirect()->back();
 
 
     }
@@ -162,9 +168,30 @@ class PaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function checkout_payment(Request $request)
     {
-        //
+       // dd( Cart::getTotal());
+        if(!empty(Cart::getTotal()) && !empty($request->order_id)){
+            //dd( $request->order_id);
+            $order_id = base64_decode($request->order_id);
+
+            $getOrder = Order::findOrFail($order_id);
+           // dd($getOrder);
+            if(!empty($getOrder)){
+                if($getOrder->payment_method == 'cod'){
+                    $getOrder->is_payment =1;
+                    $getOrder->save();
+                    Cart::clear();
+                 return redirect('cart')->with('success',"Order successfully placed");
+                }elseif($getOrder->payment_method == 'paypal'){
+
+                }else{
+
+                }
+            }
+        }else{
+            abort(404);
+        }
     }
 
     /**

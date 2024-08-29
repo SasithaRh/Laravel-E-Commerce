@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\ProductController;
@@ -47,6 +48,9 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/admin/edit/{id}',[AdminController::class,'edit'])->name('edit');
     Route::put('admin/admin/edit/{user}', [AdminController::class, 'update'])->name('update');
     Route::get('admin/admin/list/{user}', [AdminController::class, 'destroy'])->name('delete');
+
+    Route::get('admin/order/list',[OrderController::class,'index'])->name('category');
+    Route::get('admin/order/details/{id}',[OrderController::class,'details'])->name('details.order');
 
     Route::get('admin/category/list',[CategoryController::class,'index'])->name('category');
     Route::get('admin/category/add',[CategoryController::class,'create'])->name('create.category');
@@ -98,19 +102,21 @@ Route::group(['middleware'=>'admin'],function () {
     Route::get('admin/discountcode/list/{item}', [DiscountCodeController::class, 'destroy'])->name('delete.discountcode');
 
 
+
 });
 Route::post('auth_register',[AuthController::class,'auth_register']);
 Route::post('auth_signin',[AuthController::class,'auth_signin']);
 Route::get('activate/{id}',[AuthController::class,'activate_email']);
 Route::get('logout',[AuthController::class,'user_logout'])->name('user_logout');
-
-Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('cart',[PaymentController::class,'cart'])->name('cart');
 Route::get('cart/delete/{id}',[PaymentController::class,'cart_delete'])->name('cart.delete');
 Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart');
 Route::get('checkout',[PaymentController::class,'checkout'])->name('checkout');
 Route::post('checkout/place_order',[PaymentController::class,'checkout_place_order'])->name('checkout/place_order');
+Route::get('checkout/payment',[PaymentController::class,'checkout_payment']);
+
 Route::post('checkout/apply_discount',[PaymentController::class,'apply_discount']);
+Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
