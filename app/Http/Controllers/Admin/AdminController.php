@@ -101,4 +101,13 @@ class AdminController extends Controller
         ]);
         return redirect()->back()->with('success', 'User was deleted successfully!');
     }
+    public function customers_list()
+    {
+        $data['header_title'] = 'Customers List';
+        $details = User::select('users.*')->where('is_admin','=',0)->where('is_delete','=',0)->orderBy('id','desc')->paginate(5);
+
+        return view('admin.customers.list',$data,compact('details'));
+    }
+
+
 }

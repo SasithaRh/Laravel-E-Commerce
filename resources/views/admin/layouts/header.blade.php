@@ -189,6 +189,15 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{ url('admin/customers/list') }}" class="nav-link @if(Request::segment(2) == 'customers') active @endif">
+                    <i class="nav-icon fas fa-user"></i>
+                  <p>
+                    Customers
+
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ url('admin/order/list') }}" class="nav-link @if(Request::segment(2) == 'order') active @endif">
                     <i class="nav-icon fas fa-user"></i>
                   <p>

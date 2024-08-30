@@ -49,6 +49,9 @@ Route::group(['middleware'=>'admin'],function () {
     Route::put('admin/admin/edit/{user}', [AdminController::class, 'update'])->name('update');
     Route::get('admin/admin/list/{user}', [AdminController::class, 'destroy'])->name('delete');
 
+
+    Route::get('admin/customers/list',[AdminController::class,'customers_list'])->name('customers');
+
     Route::get('admin/order/list',[OrderController::class,'index'])->name('category');
     Route::get('admin/order/details/{id}',[OrderController::class,'details'])->name('details.order');
     Route::get('admin/orders_status',[OrderController::class,'orders_status']);
