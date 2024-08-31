@@ -44,4 +44,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+   static public function getTotalCustomers() {
+    $details = User::select('users.*')->where('is_admin','=',0)->where('is_delete','=',0)->count();
+    return $details;
+    }
+    static public function getTotalCustomersMonth($startDate,$endDate) {
+        $details = User::select('users.*')->where('is_admin','=',0)
+        ->where('is_delete','=',0)
+        ->whereDate('created_at','>=',$startDate)
+        ->whereDate('created_at','<=',$endDate)
+        ->count();
+        return $details;
+        }
 }

@@ -184,7 +184,7 @@ echo json_encode($json);
                     $getOrder->save();
 
                     Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
-die;
+
                     Cart::clear();
                  return redirect('cart')->with('success',"Order successfully placed");
                 }elseif($getOrder->payment_method == 'paypal'){
