@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Home\ProductController as ProductFront;
 use App\Http\Controllers\Home\PaymentController;
-
+use App\Http\Controllers\Home\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,14 @@ Route::get('admin',[AuthController::class,'login_admin'])->name('login');
 Route::post('admin',[AuthController::class,'auth_login_admin']);
 Route::get('admin/logout',[AuthController::class,'auth_logout_admin'])->name('logout');
 
-
+Route::group(['middleware'=>'user'],function () {
+    Route::get('user/dashboard',[UserController::class,'index'])->name("user/dashboard");
+    Route::get('user/orders',[UserController::class,'user_orders'])->name("user/orders");
+    Route::get('user/orders/details/{id}',[UserController::class,'user_orders_details'])->name("details.users.order");
+    Route::get('user/editprofile',[UserController::class,'user_editprofile'])->name("user/editprofile");
+    Route::get('user/change_password',[UserController::class,'change_password'])->name("user/change_password");
+    Route::get('user/logout',[UserController::class,'auth_logout_user'])->name('logout/user');
+});
 
 
 Route::group(['middleware'=>'admin'],function () {
@@ -109,6 +116,8 @@ Route::group(['middleware'=>'admin'],function () {
 
 
 });
+
+
 Route::post('auth_register',[AuthController::class,'auth_register']);
 Route::post('auth_signin',[AuthController::class,'auth_signin']);
 Route::get('activate/{id}',[AuthController::class,'activate_email']);

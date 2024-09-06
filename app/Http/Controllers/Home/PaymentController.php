@@ -13,6 +13,7 @@ use App\Models\Color;
 use App\Models\DiscountCode;
 use App\Mail\OrderInvoiceMail;
 use Mail;
+use Auth;
 class PaymentController extends Controller
 {
     /**
@@ -118,6 +119,7 @@ if(!empty($request->first_name)){
         $save = new Order;
         $save->first_name = $request->first_name;
         $save->last_name = $request->last_name;
+        $save->user_id = Auth::user()->id;
         $save->company = $request->company;
         $save->country = $request->country;
         $save->address1 = $request->address1;

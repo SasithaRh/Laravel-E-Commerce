@@ -34,7 +34,7 @@
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
                             @if (!empty(Auth::check()))
-                            <li><a href="{{ route('user_logout') }}">Log Out</a></li>
+                            <li><a href="{{ route('user/dashboard') }}">{{ Auth::user()->name }}</a></li>
                                 @else
                                 <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
 
