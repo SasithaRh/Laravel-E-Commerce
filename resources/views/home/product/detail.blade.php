@@ -126,11 +126,15 @@
                             </div><!-- End .details-filter-row -->
 
                             <div class="product-details-action">
-                                <button type="submit" class="btn-product btn-cart">add to cart</button>
+                                <button type="submit" class="btn-product btn-cart">add to cart  </button>
 
                                 <div class="details-action-wrapper">
-                                    <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
+                                    @if (!empty(Auth::check()))
+
+                                    <a href="javascript:;" class="btn-product btn-wishlists btn-wishlist add-to-wishlist{{$getproductsingle->id}} {{ !empty($getproductsingle->checkWishlist($getproductsingle->id))?'btn-wishlist-add':'' }} " id="{{$getproductsingle->id  }}" title="Wishlist"><span>Add to Wishlist</span></a>
+                                    @else
+                                    <a  href="#signin-modal" data-toggle="modal" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                    @endif
                                 </div><!-- End .details-action-wrapper -->
                             </div><!-- End .product-details-action -->
                         </form>
@@ -300,7 +304,13 @@
                         </a>
 
                         <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                            @if (!empty(Auth::check()))
+
+                            <a href="javascript:;" class="btn-product-icon btn-wishlists btn-wishlist btn-expandable add-to-wishlist{{$getproductsingle->id}} {{ !empty($getproductsingle->checkWishlist($getproductsingle->id))?'btn-wishlist-add':'' }} " id="{{$getproductsingle->id  }}" ><span>Add to Wishlist</span></a>
+                            @else
+                            <a  href="#signin-modal" data-toggle="modal" class="btn-product-icon btn-wishlist btn-expandable" ><span>Add to Wishlist</span></a>
+                            @endif
+
                             <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
                             <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
                         </div><!-- End .product-action-vertical -->

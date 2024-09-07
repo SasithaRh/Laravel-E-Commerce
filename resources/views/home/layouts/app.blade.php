@@ -30,6 +30,11 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('assest/assets/css/style.css')}}">
     @yield('style')
+    <style>
+        .btn-wishlist-add::before{
+            content: '\f233' !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -248,6 +253,32 @@
                 if(data.status == false){
                     alert(data.message)
                 }
+            }
+
+        })
+    })
+    $('body').delegate(".btn-wishlists", 'click', function(e) {
+        e.preventDefault();
+var id = $(this).attr('id')
+
+                $.ajax({
+            type: "POST",
+            url: "{{ url('add_to_wishlist') }}",
+            data:  {
+                "_token":"{{ csrf_token() }}",
+                "id":id
+            },
+            dataType: "json",
+            success: function(data) {
+                if(data.is_wishlist == 0){
+                  $('.add-to-wishlist'+id).removeClass('btn-wishlist-add')
+                }else{
+                    $('.add-to-wishlist'+id).addClass('btn-wishlist-add')
+                }
+
+            },
+            error: function(data) {
+
             }
 
         })

@@ -30,7 +30,15 @@
                         <a href="#">Links</a>
                         <ul>
                             <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
-                            <li><a href="wishlist.html"><i class="icon-heart-o"></i>My Wishlist <span>(3)</span></a></li>
+                            @if (!empty(Auth::check()))
+                            @php
+
+                            // Retrieve the product image based on prodcut_id
+                            $checkWishlistcount = App\Models\Product_wishlist::where('user_id','=',Auth::user()->id)->count();
+
+                                            @endphp
+                            <li><a href="{{ route('my-wishlist') }}"><i class="icon-heart-o"></i>My Wishlist <span>({{ $checkWishlistcount }})</span></a></li>
+                            @endif
                             <li><a href="about.html">About Us</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
                             @if (!empty(Auth::check()))

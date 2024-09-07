@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Product_wishlist;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Order;
@@ -82,8 +83,26 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function add_to_wishlist(Request $request)
     {
-        //
+       //dd($request->all());
+       $check = Product_wishlist::checkAlready($request->id,Auth::user()->id);
+       //dd($check);
+       if(empty($check)){
+        $save = new Product_wishlist;
+       $save->user_id = Auth::user()->id;
+       $save->product_id = $request->id;
+       $save->save();
+       $json['is_wishlist'] = 1;
+       }
+      else{
+        Product_wishlist::where('product_id', $request->id)->where('user_id', Auth::user()->id)->delete();
+        $json['is_wishlist'] = 0;
+      }
+
+       $json['status'] = true;
+       echo json_encode($json);
     }
+
+
 }

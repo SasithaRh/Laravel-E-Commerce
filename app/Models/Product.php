@@ -9,6 +9,7 @@ use App\Models\Prodct_Size;
 use App\Models\Prodct_Image;
 use App\Models\Category;
 use Request;
+use Auth;
 class Product extends Model
 {
     use HasFactory;
@@ -148,6 +149,30 @@ class Product extends Model
         static public function getAllImage($prodcut_id)  {
             return Prodct_Image::where('prodcut_id','=',$prodcut_id)->get();
        }
+       static public function checkWishlist($prodcut_id)
+       {
+        return Product_wishlist::checkAlready($prodcut_id,Auth::user()->id);
+       }
+       static public function get_my_wishlist($user_id)
+       {
+        $return = self::select('products.*', 'users.name as created_by','categories.slug as category_slug','categories.name as category_name','sub_categories.name as sub_category_name','sub_categories.slug as slugs')
+        ->join('users', 'users.id', '=', 'products.created_by')
+        ->join('categories', 'categories.id', '=', 'products.category_id')
+        ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+        ->join('product_wishlists', 'product_wishlists.product_id', '=', 'products.id')
+
+        ->where('product_wishlists.user_id', '=', $user_id)
+       ->where('products.is_delete', '=', 0)
+        ->where('products.status', '=', 1)
+         ->groupBy('products.id')
+        ->orderBy('products.id', 'desc')
+
+        ->get();
+
+        return $return;
+       }
+
+
 
 
 }

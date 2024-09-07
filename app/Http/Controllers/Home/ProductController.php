@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\Brand;
-
+use Auth;
 class ProductController extends Controller
 {
     /**
@@ -149,7 +149,12 @@ class ProductController extends Controller
      */
 
 
+     public function my_wishlist()  {
 
+        $data['getproducts'] =   Product::get_my_wishlist(Auth::user()->id);
+       // dd( $data['getproducts'] );
+        return view('home.product.my_wishlist',$data);
+     }
     public function store(Request $request)
     {
         //

@@ -27,9 +27,9 @@ use App\Http\Controllers\Home\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/',[HomeController::class,'index'])->name("home");
 
 Route::get('admin',[AuthController::class,'login_admin'])->name('login');
@@ -43,6 +43,10 @@ Route::group(['middleware'=>'user'],function () {
     Route::get('user/editprofile',[UserController::class,'user_editprofile'])->name("user/editprofile");
     Route::get('user/change_password',[UserController::class,'change_password'])->name("user/change_password");
     Route::get('user/logout',[UserController::class,'auth_logout_user'])->name('logout/user');
+    Route::post('add_to_wishlist',[UserController::class,'add_to_wishlist']);
+    Route::get('my-wishlist',[ProductFront::class,'my_wishlist'])->name('my-wishlist');
+
+
 });
 
 

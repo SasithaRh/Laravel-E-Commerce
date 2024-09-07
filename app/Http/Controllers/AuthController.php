@@ -73,7 +73,7 @@ class AuthController extends Controller
     public function user_logout()  {
         Auth::logout();
 
-    return redirect('/');
+    return redirect('home');
     }
 public function activate_email($id)  {
     $id = base64_decode($id);
