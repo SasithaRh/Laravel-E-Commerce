@@ -8,6 +8,8 @@ use App\Models\Product_wishlist;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Order;
+use App\Models\Product_review;
+
 class UserController extends Controller
 {
     /**
@@ -103,6 +105,18 @@ class UserController extends Controller
        $json['status'] = true;
        echo json_encode($json);
     }
+    public function make_review(Request $request)
+    {
+       //dd($request->all());
+       $save = new Product_review;
+       $save->order_id = $request->order_id;
+       $save->product_id = $request->product_id;
+       $save->user_id = Auth::user()->id;
+       $save->rating = $request->rating;
+       $save->review = $request->review;
+       $save->save();
+        return redirect()->back()->with('success',"Thank you for your valubale review");
 
+    }
 
 }

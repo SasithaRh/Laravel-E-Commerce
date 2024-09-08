@@ -29,6 +29,7 @@
                     <div class="col-md-8 col-lg-9">
                         <div class="tab-content">
                             <div class="card-body">
+                                @include('home.layouts.messages')
                                 <div class="form-group">
 
 
@@ -115,6 +116,41 @@
                                 </div> --}}
                             </div>
                         </div>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header" style="background-color: blanchedalmond">
+                                  <h5 class="modal-title" id="exampleModalLabel">Make Review</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="{{ route('make_review') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" id="getorderid" name="order_id">
+                                    <input type="hidden" id="getproductid" name="product_id">
+                                <div class="modal-body" style="padding: 20px">
+                                 <div class="form-group">
+                                    <label for="" class="ml-3">How many start</label>
+                                    <select name="rating" id="" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    </select>
+                                    <label for="" class="ml-3">Review</label>
+                                    <textarea name="review" id="" cols="3" rows="3" class="form-control"></textarea>
+                                 </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="submit"  class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                              </div>
+                            </div>
+                          </div>
                             <div class="card-body p-0">
                                 <table class="table table-striped">
                                     <thead>
@@ -125,7 +161,10 @@
                                             <th>Price</th>
                                             <th>Size Name</th>
                                             <th>Total Amount</th>
-
+                                            @if ($get_order_detail->status == 3)
+                                            <td>
+                                            </td>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,7 +176,6 @@
                                         @foreach ($orderItems as $key => $detail)
                                         @php
 
-                    // Retrieve the product image based on prodcut_id
                     $getproductimage = App\Models\Prodct_Image::where('prodcut_id', $detail->getProduct->id)->firstOrFail();
 
                                     @endphp
@@ -148,22 +186,28 @@
                                                 <td class="text-sm">$ {{ number_format($detail['price'],2) }}</td>
                                                 <td class="text-sm">{{ $detail['size_name'] }}</td>
                                                 <td class="text-sm">$ {{ $detail['total_amount'] }}</td>
-                                                {{-- <td class="text-sm">{{ $detail['company'] }}</td>
-                                                <td class="text-sm">{{ $detail['country'] }}</td>
-                                                <td class="text-sm">{{ $detail['address1'] }}</td>
-                                                <td class="text-sm">{{ $detail['city'] }}</td>
+                                                @if ($get_order_detail->status == 3)
+                                                @php
+                                                $getReview = App\Models\Order::getReview($detail->getProduct->id,$get_order_detail->id)
 
-                                                <td class="text-sm">{{ $detail['pastcode'] }}</td>
-                                                <td class="text-sm">{{ $detail['phone'] }}</td>
-                                                <td class="text-sm">{{ $detail['email'] }}</td>
-                                                <td class="text-sm">$ {{ $detail['amount'] }}</td>
-                                                <td class="text-sm">{{ $detail['payment_method'] }}</td>
-                                                <td class="text-sm">{!! $detail['status'] == 1
-                                                    ? '<p class="text-success text-bold">Active</p>'
-                                                    : '<p class="text-danger text-bold">InActive</p>' !!}</td>
-                                                <td ><a href="{{ route('details.order', $detail['id']) }}"
-                                                    class="btn btn-primary btn-sm mr-1">Details</a>
-                                                </td> --}}
+                                            @endphp
+                                            @if (!empty($getReview))
+                                            <td>
+                                             <b> Review : </b> {{ $getReview->review }} <br>
+                                             <b>Rating :</b>   {{ $getReview->rating }}
+                                            </td>
+
+
+                                                @else
+                                                <td>
+                                                    <button class="btn btn-primary make_review" data-toggle="modal" data-target="#exampleModal" id="{{$detail->getProduct->id }}" data-order={{ $get_order_detail->id }}>Make Review</button>
+                                                  </td>
+                                            @endif
+
+                                                @endif
+
+
+
                                             </tr>
                                         @endforeach
 
@@ -182,6 +226,29 @@
 
 @section('script')
 
+<script>
+    $('.make_review').click(function (e) {
+    e.preventDefault();
+    var product_id  = $(this).attr('id');
+    var order_id =  $(this).attr('data-order');
+$('#getorderid').val(order_id);
+$('#getproductid').val(product_id);
+//      xhr = $.ajax({
+//     type: "POST",
+//     url: "{{ url('checkout/apply_discount') }}",
+//     data: {
+//         "_token":"{{ csrf_token() }}",
+//         "discount_code":discount_code,
+//     },
+//     dataType: "json",
+//     success: function(data) {
 
+//     },
+//     error: function(data) {
+
+//     }
+// })
+})
+</script>
 
 @endsection

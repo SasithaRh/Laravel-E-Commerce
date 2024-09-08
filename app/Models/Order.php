@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Product_review;
+use Auth;
 class Order extends Model
 {
     use HasFactory;
@@ -171,5 +172,10 @@ static public function getTotalOrdersMonth($startDate,$endDate) {
    // return 0;
     return $this->hasMany(Order_item::class,'order_id');
 }
+
+static public function getReview($product_id,$order_id) {
+
+    return Product_review::getReview($product_id,$order_id,Auth::user()->id);
+    }
 
 }

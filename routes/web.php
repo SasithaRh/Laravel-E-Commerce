@@ -45,7 +45,7 @@ Route::group(['middleware'=>'user'],function () {
     Route::get('user/logout',[UserController::class,'auth_logout_user'])->name('logout/user');
     Route::post('add_to_wishlist',[UserController::class,'add_to_wishlist']);
     Route::get('my-wishlist',[ProductFront::class,'my_wishlist'])->name('my-wishlist');
-
+    Route::post('make_review',[UserController::class,'make_review'])->name('make_review');
 
 });
 
