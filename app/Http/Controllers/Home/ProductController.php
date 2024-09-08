@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\Brand;
+use App\Models\Product_review;
 use Auth;
 class ProductController extends Controller
 {
@@ -56,6 +57,11 @@ class ProductController extends Controller
 
             $data['getproductsingle'] = $getproductsingle;
             $data['getRelatedProduct'] =Product::getRelatedProduct($getproductsingle->id,$getproductsingle->sub_category_id);
+            $data['getproductReview'] = Product_review::getproductReview($getproductsingle->id);
+            $data['getproductReviewcount'] = Product_review::getproductReviewcount($getproductsingle->id);
+
+
+            //dd($data['getproductReview']);
             return view('home.product.detail',$data);
         }
         else if(!empty($getcategory) && !empty($getsubcategory)){

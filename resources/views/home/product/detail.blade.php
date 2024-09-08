@@ -174,7 +174,7 @@
                         <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                        <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews ({{ $getproductReviewcount }})</a>
                     </li>
                 </ul>
             </div><!-- End .container -->
@@ -204,58 +204,35 @@
                 <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
                     <div class="reviews">
                         <div class="container">
-                            <h3>Reviews (2)</h3>
-                            <div class="review">
-                                <div class="row no-gutters">
-                                    <div class="col-auto">
-                                        <h4><a href="#">Samanta J.</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                        </div><!-- End .rating-container -->
-                                        <span class="review-date">6 days ago</span>
-                                    </div><!-- End .col -->
-                                    <div class="col">
-                                        <h4>Good, perfect size</h4>
+                            <h3>Reviews ({{ $getproductReviewcount }})</h3>
+@foreach ($getproductReview as $review )
+<div class="review">
+    <div class="row no-gutters">
+        <div class="col-auto">
+            <h4><a href="#">{{ $review->name }}</a></h4>
+            <div class="ratings-container">
+                <div class="ratings">
+                    <div class="ratings-val" style="width: {{$review->getratingpercentage()}}%;"></div><!-- End .ratings-val -->
+                </div><!-- End .ratings -->
+            </div><!-- End .rating-container -->
+            <span class="review-date">{{ Carbon\Carbon::parse($review->created_at)->diffForHumans() }}</span>
+        </div><!-- End .col -->
+        <div class="col">
+            <h4>{{ $review->review}}</h4>
 
-                                        <div class="review-content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
-                                        </div><!-- End .review-content -->
 
-                                        <div class="review-action">
-                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                        </div><!-- End .review-action -->
-                                    </div><!-- End .col-auto -->
-                                </div><!-- End .row -->
-                            </div><!-- End .review -->
 
-                            <div class="review">
-                                <div class="row no-gutters">
-                                    <div class="col-auto">
-                                        <h4><a href="#">John Doe</a></h4>
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                        </div><!-- End .rating-container -->
-                                        <span class="review-date">5 days ago</span>
-                                    </div><!-- End .col -->
-                                    <div class="col">
-                                        <h4>Very good</h4>
+            <div class="review-action">
+                <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
+                <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
+            </div><!-- End .review-action -->
+        </div><!-- End .col-auto -->
+    </div><!-- End .row -->
+</div><!-- End .review -->
+@endforeach
 
-                                        <div class="review-content">
-                                            <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
-                                        </div><!-- End .review-content -->
 
-                                        <div class="review-action">
-                                            <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                            <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                        </div><!-- End .review-action -->
-                                    </div><!-- End .col-auto -->
-                                </div><!-- End .row -->
-                            </div><!-- End .review -->
+
                         </div><!-- End .container -->
                     </div><!-- End .reviews -->
                 </div><!-- .End .tab-pane -->

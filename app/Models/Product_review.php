@@ -17,6 +17,47 @@ class Product_review extends Model
         ->first();
         return $getReview;
     }
+    static public function getproductReview($product_id)  {
+        $getReview = Product_review::select('*')
+        ->join('users','users.id','product_reviews.user_id')
+
+        ->where('product_id','=',$product_id)
+
+        ->paginate(5);
+        return $getReview;
+    }
+    static public function getproductReviewcount($product_id)  {
+        $getReview = Product_review::select('*')
+        ->join('users','users.id','product_reviews.user_id')
+
+        ->where('product_id','=',$product_id)
+
+        ->count();
+        return $getReview;
+    }
+     public function getratingpercentage()  {
+
+        $rating = $this->rating;
+        if($rating == 1){
+            return 20;
+        }
+        if($rating == 2){
+            return 40;
+        }
+        if($rating == 3){
+            return 60;
+        }
+        if($rating == 4){
+            return 80;
+        }
+        if($rating == 5){
+            return 100;
+        }
+
+
+    }
+
+
 
 
 }
