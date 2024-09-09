@@ -71,9 +71,9 @@
 
                             <div class="ratings-container">
                                 <div class="ratings">
-                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                    <div class="ratings-val" style="width: {{ ($getproductReviewpercent*10) }}%;"></div><!-- End .ratings-val -->
                                 </div><!-- End .ratings -->
-                                <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                <a class="ratings-text" href="#product-review-link" id="review-link">( {{ $getproductReviewcount }} Reviews )</a>
                             </div><!-- End .rating-container -->
 
                             <div class="product-price newPrice">

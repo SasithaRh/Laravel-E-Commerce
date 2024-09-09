@@ -39,8 +39,8 @@
                                             @endphp
                             <li><a href="{{ route('my-wishlist') }}"><i class="icon-heart-o"></i>My Wishlist <span>({{ $checkWishlistcount }})</span></a></li>
                             @endif
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="{{ route("about_us") }}">About Us</a></li>
+                            <li><a href="{{ route("contact_us") }}">Contact Us</a></li>
                             @if (!empty(Auth::check()))
                             <li><a href="{{ route('user/dashboard') }}">{{ Auth::user()->name }}</a></li>
                                 @else

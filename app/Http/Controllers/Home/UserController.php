@@ -118,5 +118,11 @@ class UserController extends Controller
         return redirect()->back()->with('success',"Thank you for your valubale review");
 
     }
+    public function about_us()  {
+        return view('home.pages.about_us');
+    }
+    public function contact_us()  {
+        return view('home.pages.contact_us');
+    }
 
 }

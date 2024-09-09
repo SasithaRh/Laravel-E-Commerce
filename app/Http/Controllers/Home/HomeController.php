@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Contact_us;
 use Hash;
+use Auth;
+use Mail;
+use App\Mail\ContactUsMail;
 class HomeController extends Controller
 {
     /**
@@ -23,9 +27,23 @@ class HomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function submit_contact(Request $request)
     {
-        //
+      // dd($request->all());
+       $save = new Contact_us;
+       if(!empty(Auth::check())){
+        $save->user_id = Auth::user()->id ;
+       }
+
+       $save->cname = $request->cname;
+       $save->cemail = $request->cemail;
+       $save->cphone = $request->cphone;
+       $save->csubject = $request->csubject;
+       $save->cmessage = $request->cmessage;
+       $save->save();
+       Mail::to($save->cemail)->send(new ContactUsMail($save));
+        return redirect()->back()->with('success',"Thank you for Contact Us");
+
     }
 
     /**

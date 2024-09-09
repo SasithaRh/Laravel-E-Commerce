@@ -132,13 +132,15 @@ Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart'
 Route::get('checkout',[PaymentController::class,'checkout'])->name('checkout');
 Route::post('checkout/place_order',[PaymentController::class,'checkout_place_order'])->name('checkout/place_order');
 Route::get('checkout/payment',[PaymentController::class,'checkout_payment']);
-
+Route::get('about_us',[UserController::class,'about_us'])->name("about_us");
+Route::get('contact_us',[UserController::class,'contact_us'])->name("contact_us");
 Route::post('checkout/apply_discount',[PaymentController::class,'apply_discount']);
 Route::get('search',[ProductFront::class,'getProductsearch']);
 Route::get('/home/layouts/header',[CategoryController::class,'indexs']);
 Route::post('get_product_filter',[ProductFront::class,'get_product_filter']);
 Route::get('{slug?}/{subslug?}',[ProductFront::class,'getCategory']);
 Route::post('prodcut/add-to-cart',[PaymentController::class,'addtocart'])->name('prodcut/add-to-cart');
+Route::post('submit_contact',[HomeController::class,'submit_contact'])->name('submit_contact');
 
 
 

@@ -22,10 +22,10 @@
                         <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
 
                         <ul class="widget-list">
-                            <li><a href="about.html">About Molla</a></li>
+                            <li><a href="{{ route("about_us") }}">About Molla</a></li>
                             <li><a href="#">How to shop on Molla</a></li>
                             <li><a href="#">FAQ</a></li>
-                            <li><a href="contact.html">Contact us</a></li>
+                            <li><a href="{{ route("contact_us") }}">Contact us</a></li>
                             <li><a href="#signin-modal" data-toggle="modal">Log in</a></li>
                         </ul><!-- End .widget-list -->
                     </div><!-- End .widget -->

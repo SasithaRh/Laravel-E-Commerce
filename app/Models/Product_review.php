@@ -35,6 +35,15 @@ class Product_review extends Model
         ->count();
         return $getReview;
     }
+    static public function getproductReviewpercent($product_id)  {
+        $getReview = Product_review::select('*')
+
+
+        ->where('product_id','=',$product_id)
+
+        ->avg('product_reviews.rating');
+        return $getReview;
+    }
      public function getratingpercentage()  {
 
         $rating = $this->rating;

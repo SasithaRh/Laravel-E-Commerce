@@ -59,6 +59,8 @@ class ProductController extends Controller
             $data['getRelatedProduct'] =Product::getRelatedProduct($getproductsingle->id,$getproductsingle->sub_category_id);
             $data['getproductReview'] = Product_review::getproductReview($getproductsingle->id);
             $data['getproductReviewcount'] = Product_review::getproductReviewcount($getproductsingle->id);
+            $data['getproductReviewpercent'] = Product_review::getproductReviewpercent($getproductsingle->id);
+//dd($data['getproductReviewpercent']);
 
 
             //dd($data['getproductReview']);
