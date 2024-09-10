@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Slider;
 use App\Models\Contact_us;
 use Hash;
 use Auth;
@@ -17,7 +18,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.home');
+        $details = Slider::select('sliders.*',)
+
+        // ->where('categories.is_delete', '=', 0)
+        ->orderBy('sliders.id', 'desc')
+        ->get();
+        return view('home.home',compact("details"));
     }
 
     /**
@@ -49,9 +55,10 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+
+
     }
 
     /**

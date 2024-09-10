@@ -15,6 +15,7 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Home\ProductController as ProductFront;
 use App\Http\Controllers\Home\PaymentController;
 use App\Http\Controllers\Home\UserController;
+use App\Http\Controllers\Admin\SliderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,9 @@ Route::group(['middleware'=>'admin'],function () {
     Route::put('admin/discountcode/edit/{item}', [DiscountCodeController::class, 'update'])->name('update.discountcode');
     Route::get('admin/discountcode/list/{item}', [DiscountCodeController::class, 'destroy'])->name('delete.discountcode');
 
+    Route::get('admin/slider/list',[SliderController::class,'index'])->name('slider');
+    Route::get('admin/slider/add',[SliderController::class,'create'])->name('create.slider');
+    Route::post('admin/slider/add',[SliderController::class,'store'])->name('store.slider');
 
 
 });
