@@ -30,6 +30,20 @@ class Product extends Model
         'is_delete'
     ];
 
+    static public function getRecentArrivals()  {
+
+        $return = self::select('products.*', )
+         ->where('products.is_delete', '=', 0)
+         ->where('products.status', '=', 1)
+
+         ->orderBy('products.id', 'asc')
+         ->limit(8)
+         ->get();
+
+         return $return;
+
+     }
+
     static public function checkSlug($slug){
 
         return self::where('slug','=',$slug)->count();
@@ -113,6 +127,20 @@ class Product extends Model
          ->groupBy('products.id')
         ->orderBy('products.id', 'desc')
         ->limit(10)
+        ->get();
+
+        return $return;
+    }
+    static public function getproductbycat($category_id)  {
+        $return = self::select('products.*',)
+
+        ->where('products.category_id', '=', $category_id)
+
+       ->where('products.is_delete', '=', 0)
+        ->where('products.status', '=', 1)
+
+        ->orderBy('products.id', 'asc')
+        ->limit(8)
         ->get();
 
         return $return;

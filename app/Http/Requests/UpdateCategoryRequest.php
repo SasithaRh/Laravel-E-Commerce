@@ -25,6 +25,7 @@ class UpdateCategoryRequest extends FormRequest
             "name" => ["required", "string", "max:255"],
             "status"=>["required","boolean"],
             "slug" => ["required", "string", "max:255"],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             "meta_title" => ["required", "string"],
             "meta_description" => ["required", "string"],
             "meta_keywords" => ["required", "string"],

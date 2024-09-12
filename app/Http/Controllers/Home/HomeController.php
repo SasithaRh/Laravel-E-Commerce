@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Slider;
+use App\Models\Category;
 use App\Models\Contact_us;
+use App\Models\Product;
+
 use Hash;
 use Auth;
 use Mail;
@@ -23,7 +26,12 @@ class HomeController extends Controller
         // ->where('categories.is_delete', '=', 0)
         ->orderBy('sliders.id', 'desc')
         ->get();
-        return view('home.home',compact("details"));
+
+        $data['getCategory'] = Category::getRecord();
+        $data['getRecentArrivals'] = Product::getRecentArrivals();
+
+        //dd($data['getCategory'] );
+        return view('home.home',$data,compact("details"));
     }
 
     /**

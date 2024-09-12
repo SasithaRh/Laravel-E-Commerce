@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Auth;
+use Str;
 class CategoryController extends Controller
 {
     /**
@@ -41,9 +42,17 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
 
-        $data = $request->validated();
-        $data['created_by'] = Auth::user()->id;
 
+        $data = $request->validated();
+
+        $files = $request->file('image');
+        $randomStr = date('YmdHis') . Str::random(10);
+        $filename = strtolower($randomStr) . '.' . $files->getClientOriginalExtension();
+
+        // Store the file and get the path
+        $path = $files->storeAs('upload/sliders', $filename,'public');
+        $data['image'] = $filename;
+        $data['created_by'] = Auth::user()->id;
         Category::create($data);
         return redirect('admin/category/list')->with('success','Category was created successfully !');
     }
@@ -70,17 +79,35 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(UpdateCategoryRequest $request,Category $item)
-    {
+     public function update(UpdateCategoryRequest $request, Category $item)
+     {
+         // Debug to check request data
+         // dd($request->all());
 
-        $data = $request->validated();
+         $data = $request->validated();
 
+         $files = $request->file('image');
+         if ($files) {
+             $randomStr = date('YmdHis') . Str::random(10);
+             $filename = strtolower($randomStr) . '.' . $files->getClientOriginalExtension();
 
-    $item->update($data);
+             // Store the file and get the path
+             $path = $files->storeAs('upload/category', $filename, 'public');
+             $data['image'] = $filename;
+         } else {
+             // Optionally handle cases where no new image is uploaded
+             $data['image'] = $item->image; // Keep the old image if no new file is provided
+         }
 
-    // Redirect with success message
-    return redirect('admin/category/list')->with('success', 'Category was updated successfully!');
-    }
+         $data['created_by'] = Auth::user()->id;
+
+         // Update the category with the new data
+         $item->update($data);
+
+         // Redirect with success message
+         return redirect('admin/category/list')->with('success', 'Category was updated successfully!');
+     }
+
     /**
      * Remove the specified resource from storage.
      */

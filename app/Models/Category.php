@@ -12,9 +12,11 @@ class Category extends Model
         'name',
         'status',
         'slug',
+
         'meta_title',
         'meta_description',
         'meta_keywords',
+        'image',
         'created_by',
         'is_delete'
     ];
@@ -26,6 +28,16 @@ class Category extends Model
         ->first();
     }
 
+    static public function getRecord() {
+
+        return self::select('categories.*')
+
+        ->where('categories.is_delete', '=', 0)
+
+        ->orderBy('categories.id', 'asc')
+        ->limit(3)
+        ->get();
+    }
     static public function getRecordMenu()
     {
 

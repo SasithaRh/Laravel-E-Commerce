@@ -34,7 +34,7 @@
                             <!-- /.card-header -->
                             <!-- form start -->
 
-                            <form action="{{ route('store.category') }}" method="post">
+                            <form action="{{ route('store.category') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
@@ -58,6 +58,11 @@
                                     @error('meta_title')
                                         <span class="text-danger" align="center">{{ $message }}</span>
                                     @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Image</label>
+                                    <input type="file" name="image" class="form-control" placeholder="Enter meta_title">
+
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Meta Description</label>

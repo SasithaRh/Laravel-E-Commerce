@@ -35,7 +35,7 @@
                 <!-- /.card-header -->
                 <!-- form start -->
 
-                <form action="{{ route('update.category',$details['id']) }}" method="post">
+                <form action="{{ route('update.category',$details['id']) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="id" value="{{$details['id'] }}">
@@ -60,6 +60,11 @@
                         @error('meta_title')
                             <span class="text-danger" align="center">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Image</label>
+                        <input type="file" name="image" class="form-control" placeholder="Enter meta_title">
+
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Meta Description</label>
