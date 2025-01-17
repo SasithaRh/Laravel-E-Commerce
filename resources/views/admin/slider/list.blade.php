@@ -23,7 +23,7 @@
             <div class="card-header">
                 <div class="row mb-2">
                     <div class="col-sm-10">
-                        <h3 class="card-title">Slider List Table</h3>
+                        <h3 class="card-title">Sliders List Table</h3>
                     </div>
                     <div class="col-sm-2">
                         <a href="{{ route('create.slider') }}" class="text-white"><button type="button"
