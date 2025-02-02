@@ -58,7 +58,7 @@
 
                                 <td ><a href="{{ route('edit.product', $detail['id']) }}"
                                         class="btn btn-primary btn-sm mr-1">Edit</a><a
-                                        href="" class="btn btn-sm btn-danger"
+                                     href="{{ route('delete.product', $detail['id']) }}" class="btn btn-sm btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this User?');">Delete</a>
                                 </td>
                             </tr>

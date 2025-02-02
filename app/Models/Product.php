@@ -160,6 +160,7 @@ class Product extends Model
 
         public function getCategory()
         {
+
             return $this->belongsTo(Category::class, 'category_id');
 
         }
@@ -171,12 +172,20 @@ class Product extends Model
 
         static public function getImageSingle($prodcut_id)
         {
+
             return Prodct_Image::where('prodcut_id','=',$prodcut_id)->first();
         }
 
         static public function getAllImage($prodcut_id)  {
             return Prodct_Image::where('prodcut_id','=',$prodcut_id)->get();
        }
+       public static function getSecondImage($product_id)
+{
+    return Prodct_Image::where('prodcut_id', '=', $product_id)
+        ->skip(1) // Skip the first image
+        ->take(1) // Limit the result to one record
+        ->first();
+}
        static public function checkWishlist($prodcut_id)
        {
         return Product_wishlist::checkAlready($prodcut_id,Auth::user()->id);

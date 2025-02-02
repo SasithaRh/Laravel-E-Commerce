@@ -18,7 +18,7 @@ class SliderController extends Controller
 
         // ->where('categories.is_delete', '=', 0)
         ->orderBy('sliders.id', 'desc')
-        ->get();
+        ->paginate(5);
         return view('admin.slider.list',$data,compact("details"));
     }
 

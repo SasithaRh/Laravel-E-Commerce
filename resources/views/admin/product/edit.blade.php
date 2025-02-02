@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputPassword1">Select Brand</label>
-                                                <select name="category_id" class="form-control">
+                                                <select name="brand_id" class="form-control">
                                                     @foreach ($brand as $brands)
                                                         <option value="{{ $brands->id }}">{{ $brands->name }}</option>
                                                     @endforeach

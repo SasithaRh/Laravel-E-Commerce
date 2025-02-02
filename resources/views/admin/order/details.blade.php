@@ -1,5 +1,44 @@
 @extends('admin.layouts.app')
 @section('style')
+<style>
+    .order-details-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .order-info {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .order-info label {
+        font-weight: bold;
+        color: #343a40;
+    }
+    .table thead {
+        background-color: #007bff;
+        color: white;
+    }
+    .table tbody tr:hover {
+        background: #f1f1f1;
+    }
+    .breadcrumb a {
+        text-decoration: none;
+        color: #007bff;
+    }
+    .breadcrumb-item.active {
+        font-weight: bold;
+        color: #343a40;
+    }
+    .product-img {
+        border-radius: 5px;
+        transition: transform 0.3s;
+    }
+    .product-img:hover {
+        transform: scale(1.1);
+    }
+</style>
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -24,7 +63,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- left column -->
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card-body">
                         <div class="form-group">
 
@@ -57,40 +96,46 @@
                             <label>City/State : {{ $details['city'] }} / {{ $details['state'] }}</label>
 
                         </div>
-
-                        <div class="form-group">
-                            <label>Pastcode : {{ $details['pastcode'] }}</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Phone : {{ $details['phone'] }}</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Email : {{ $details['email'] }}</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Total Amount : $ {{ $details['amount'] }}</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Payment Method : {{ $details['payment_method'] }}</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Note : {{ $details['note'] }}</label>
-
-                        </div>
                         <div class="form-group">
                             <label>Created Date : {{ $details['created_at'] }}</label>
 
                         </div>
 
+
                     </div>
                     <!-- /.card -->
                 </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Pastcode : {{ $details['pastcode'] }}</label>
 
+                            </div>
+                            <div class="form-group">
+                                <label>Phone : {{ $details['phone'] }}</label>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Email : {{ $details['email'] }}</label>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Total Amount : $ {{ $details['amount'] }}</label>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method : {{ $details['payment_method'] }}</label>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Note : {{ $details['note'] }}</label>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="card">

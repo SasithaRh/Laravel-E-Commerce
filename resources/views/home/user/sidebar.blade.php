@@ -1,4 +1,4 @@
-<aside class="col-md-4 col-lg-3">
+<aside class="col-md-2">
     <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
         <li class="nav-item">
             <a href="{{ route('user/dashboard') }}" class="nav-link  @if(Request::segment(2) == 'dashboard') active @endif" >Dashboard</a>
@@ -9,9 +9,7 @@
         <li class="nav-item">
             <a href="{{ route('user/editprofile') }}" class="nav-link @if(Request::segment(2) == 'editprofile') active @endif">Edit Profile</a>
         </li>
-        <li class="nav-item">
-            <a href="{{ route('user/change_password') }}" class="nav-link @if(Request::segment(2) == 'change_password') active @endif">Change Password</a>
-        </li>
+
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route("logout/user") }}">Sign Out</a>

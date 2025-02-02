@@ -243,10 +243,10 @@
             <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
             <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
                 data-owl-options='{
-                    "nav": false,
+                    "nav": true,
                     "dots": true,
                     "margin": 20,
-                    "loop": false,
+                    "loop": true,
                     "responsive": {
                         "0": {
                             "items":1
@@ -261,7 +261,7 @@
                             "items":4
                         },
                         "1200": {
-                            "items":4,
+                            "items":5,
                             "nav": true,
                             "dots": false
                         }

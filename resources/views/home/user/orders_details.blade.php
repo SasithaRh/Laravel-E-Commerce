@@ -26,7 +26,7 @@
                 <div class="row">
                     @include('home.user.sidebar')
 
-                    <div class="col-md-8 col-lg-9">
+                    <div class="col-md-4">
                         <div class="tab-content">
                             <div class="card-body">
                                 @include('home.layouts.messages')
@@ -62,6 +62,18 @@
 
                                 </div>
 
+
+                                <div class="form-group">
+                                    <label>Created Date : {{ $get_order_detail['created_at'] }}</label>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tab-content">
+                            <div class="card-body">
                                 <div class="form-group">
                                     <label>Pastcode : {{ $get_order_detail['pastcode'] }}</label>
 
@@ -100,15 +112,13 @@
                                     <label>Note : {{ $get_order_detail['note'] }}</label>
 
                                 </div>
-                                <div class="form-group">
-                                    <label>Created Date : {{ $get_order_detail['created_at'] }}</label>
-
-                                </div>
-
                             </div>
+                        </div>
+                    </div>
+                </div>
                             <div class="card-header">
                                 <div class="col-sm-12">
-                                    <h3 class="card-title">Prodcut Details</h3>
+                                    <h3 style="text-align: center" class="card-title">Prodcut Details</h3>
                                 </div>
                                 {{-- <div class="col-sm-2">
                                     <a href="{{ route('create.Order') }}" class="text-white"><button type="button"
@@ -155,12 +165,12 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Image</th>
-                                            <th>Product Name</th>
-                                            <th>Qty</th>
-                                            <th>Price</th>
-                                            <th>Size Name</th>
-                                            <th>Total Amount</th>
+                                            <th ><h6 style="margin-left: 10px">  Image</h6></th>
+                                            <th> <h6> Product Name</h6></th>
+                                            <th> <h6> Qty</h6></th>
+                                            <th> <h6> Price</h6></th>
+                                            <th> <h6> Size Name</h6></th>
+                                            <th> <h6> Total Amount</h6></th>
                                             @if ($get_order_detail->status == 3)
                                             <td>
                                             </td>

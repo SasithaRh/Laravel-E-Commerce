@@ -24,13 +24,13 @@ class HomeController extends Controller
         $details = Slider::select('sliders.*',)
 
         // ->where('categories.is_delete', '=', 0)
-        ->orderBy('sliders.id', 'desc')
+        ->orderBy('sliders.id', 'asc')
         ->get();
 
         $data['getCategory'] = Category::getRecord();
         $data['getRecentArrivals'] = Product::getRecentArrivals();
 
-        //dd($data['getCategory'] );
+       // dd($data['getCategory'] );
         return view('home.home',$data,compact("details"));
     }
 

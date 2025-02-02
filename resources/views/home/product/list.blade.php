@@ -112,7 +112,7 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
-                                    Category
+                                    Sub Category
                                 </a>
                             </h3><!-- End .widget-title -->
 

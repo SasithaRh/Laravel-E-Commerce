@@ -10,7 +10,7 @@
             <div class="product product-7 text-center">
                 <figure class="product-media">
                     <span class="product-label label-new">New</span>
-                    <a href="product.html">
+                    <a href="{{ url($product->slug) }}">{{ $product->title }}
                         @if (!empty( $getproductimage->image_name))
                         <img src="{{ asset('storage/upload/products/' . $getproductimage->image_name) }}" alt="Product image"  style="width: 280px !important;
                         height: 280px;" >
@@ -25,7 +25,7 @@
                     </div><!-- End .product-action-vertical -->
 
                     <div class="product-action">
-                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                        {{-- <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> --}}
                     </div><!-- End .product-action -->
                 </figure><!-- End .product-media -->
 

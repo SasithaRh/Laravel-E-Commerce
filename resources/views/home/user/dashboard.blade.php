@@ -35,7 +35,7 @@
                 <div class="row">
 @include('home.user.sidebar')
 
-                    <div class="col-md-8 col-lg-9">
+                    <div class="col-md-10">
                         <div class="tab-content">
                             <div class="row mb-5">
                                 <div class="col-md-3">

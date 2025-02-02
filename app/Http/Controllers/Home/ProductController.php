@@ -74,6 +74,7 @@ class ProductController extends Controller
 
             $getproducts =   Product::getproducts($getcategory->id,$getsubcategory->id);
             $page = 0;
+
             if(!empty($getproducts->nextPageUrl())){
                 $parse_url = parse_url($getproducts->nextPageUrl());
                // dd($getproducts->nextPageUrl());
@@ -94,10 +95,12 @@ class ProductController extends Controller
 
 
             $page = 0;
+            //dd($getproducts->nextPageUrl());
             if(!empty($getproducts->nextPageUrl())){
                 $parse_url = parse_url($getproducts->nextPageUrl());
-               // dd($getproducts->nextPageUrl());
+              // dd($getproducts->nextPageUrl());
                 if(!empty($parse_url['query'])){
+                    //dd($parse_url['query']);
                     parse_str($parse_url['query'],$get_array);
                     $page = !empty($get_array['page']) ? $get_array['page'] : 0;
 
@@ -121,12 +124,14 @@ class ProductController extends Controller
 
     public function get_product_filter(Request $request)
     {
-        // dd($request->all());
+    //dd($request->all());
         $getproducts =   Product::getproducts();
+       // dd($getproducts);
         $page = 0;
+        //dd($getproducts->nextPageUrl());
         if(!empty($getproducts->nextPageUrl())){
             $parse_url = parse_url($getproducts->nextPageUrl());
-           // dd($getproducts->nextPageUrl());
+
             if(!empty($parse_url['query'])){
                 parse_str($parse_url['query'],$get_array);
                 $page = !empty($get_array['page']) ? $get_array['page'] : 0;

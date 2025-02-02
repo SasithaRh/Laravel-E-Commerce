@@ -218,6 +218,13 @@ if ($productSizes->isNotEmpty()) {
         return redirect()->back()->with('success', 'Image was deleted successfully!');
 
     }
+    public function destroy($id)
+    {
+        Product::where('id', $id)->delete();
+
+        return redirect()->back()->with('success', 'Product was deleted successfully!');
+
+    }
     // public function product_image_sortable(Request $request) {
     //     // Validate incoming data
     //     $validator = Validator::make($request->all(), [
