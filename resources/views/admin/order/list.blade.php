@@ -3,11 +3,15 @@
 @section('content')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Order List</h1>
+                        @php
+    $getRecord = App\Models\Order::getRecord();
+@endphp
+                        <h1 class="m-0">Order List (Total : {{ $getRecord->total() }})</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -19,6 +23,61 @@
             </div><!-- /.container-fluid -->
         </div>
         @include('admin.layouts.messages')
+        <form method="get">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Order Search</h3>
+            </div><!-- /.col -->
+            <div class="card-body ">
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">ID</label>
+                            <input type="text" name="id" id="" class="form-control" value="{{ Request::get('id') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">First Name</label>
+                            <input type="text" name="fname" id="" class="form-control" value="{{ Request::get('fname') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Company</label>
+                            <input type="text" name="company" id="" class="form-control" value="{{ Request::get('company') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Country</label>
+                            <input type="text" name="country" id="" class="form-control" value="{{ Request::get('country') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Address</label>
+                            <input type="text" name="address" id="" class="form-control" value="{{ Request::get('address') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" name="email" id="" class="form-control" value="{{ Request::get('email') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        <a href="{{ url("/admin/order/list") }}" class="btn btn-primary">Reset</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
         <div class="card">
             <div class="card-header">
                 <div class="row mb-2">
@@ -32,7 +91,7 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body p-0">
+            <div class="card-body ">
                 <table class="table table-striped">
                     <thead>
                         <tr>

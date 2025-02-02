@@ -7,14 +7,38 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product_review;
 use Auth;
+use Request;
 class Order extends Model
 {
     use HasFactory;
 
 static public function getRecord()  {
-   $return= Order::select('orders.*')
-
-    ->where('orders.is_delete', '=', 0)
+   $return= Order::select('orders.*');
+            if(!empty( Request::get('id')))
+            {
+                $return=  $return->where('orders.id', '=', Request::get('id'));
+            }
+            if(!empty( Request::get('fname')))
+            {
+                $return=  $return->where('orders.first_name','like', '%' .Request::get('fname') .'%');
+            }
+            if(!empty( Request::get('company')))
+            {
+                $return=  $return->where('orders.company','like', '%' .Request::get('company') .'%');
+            }
+            if(!empty( Request::get('country')))
+            {
+                $return=  $return->where('orders.country','like', '%' .Request::get('country') .'%');
+            }
+            if(!empty( Request::get('address')))
+            {
+                $return=  $return->where('orders.address1','like', '%' .Request::get('address') .'%');
+            }
+            if(!empty( Request::get('email')))
+            {
+                $return=  $return->where('orders.email','like', '%' .Request::get('email') .'%');
+            }
+   $return=  $return->where('orders.is_delete', '=', 0)
     ->orderBy('orders.id', 'desc')
     ->paginate(10);
     return $return;

@@ -27,11 +27,12 @@
 -->
 <body class="hold-transition sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper" style="min-height: 1000.4px;">
     @include('admin.layouts.header')
 @yield('content')
 @include('admin.layouts.footer')
 </div>
+
 <script src="{{ asset('assest/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{ asset('assest/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
