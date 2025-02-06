@@ -129,8 +129,9 @@ if(!empty($request->first_name)){
         $save->pastcode = $request->pastcode;
         $save->phone = $request->phone;
         $save->email = $request->email;
-        $save->total_amount = $request->amount;
+        $save->amount = $request->amount;
         $save->note = $request->note;
+        $save->status = 0;
         $save->payment_method = $request->payment_method;
         $save->save();
 

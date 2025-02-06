@@ -44,7 +44,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('assest/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script>$('body').toggleClass('main-sidebar');
+
 @yield('script')
 </body>
 </html>
