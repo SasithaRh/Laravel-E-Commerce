@@ -71,8 +71,9 @@
 
                             <div class="ratings-container">
                                 <div class="ratings">
-                                    <div class="ratings-val" style="width: {{ ($getproductReviewpercent*10) }}%;"></div><!-- End .ratings-val -->
+                                    <div class="ratings-val" style="width: {{ ($getproductReviewpercent*10*2) }}%;"></div><!-- End .ratings-val -->
                                 </div><!-- End .ratings -->
+
                                 <a class="ratings-text" href="#product-review-link" id="review-link">( {{ $getproductReviewcount }} Reviews )</a>
                             </div><!-- End .rating-container -->
 
@@ -105,7 +106,7 @@
                                 <div class="select-custom">
                                     <select name="size_id" id="size" class="form-control getSizePrice">
 
-                                        <option  data-price="0" value="" selected="selected">Select a size</option>
+                                        {{-- <option  data-price="0" value="" selected="selected">Select a size</option> --}}
                                         @foreach ($getproductsingle->getSize as $Size )
                                         <option data-price="{{ !empty($Size->price)?$Size->price :'' }}" value="{{ $Size->id }}">{{ $Size->name }} @if (!empty( $Size->price))
                                             ({{number_format($Size->price,2) }})
@@ -301,7 +302,7 @@
                         <div class="product-cat">
                             <a href="#">Women</a>
                         </div><!-- End .product-cat -->
-                        <h3 class="product-title"><a href="{{ url($RelatedProduct->slug) }}">{{  $RelatedProduct->title}} <br>pencil skirt</a></h3><!-- End .product-title -->
+                        <h3 class="product-title"><a href="{{ url($RelatedProduct->slug) }}">{{  $RelatedProduct->title}} </a></h3><!-- End .product-title -->
                         <div class="product-price">
                             ${{  $RelatedProduct->price}}
                         </div><!-- End .product-price -->

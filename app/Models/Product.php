@@ -139,8 +139,21 @@ class Product extends Model
        ->where('products.is_delete', '=', 0)
         ->where('products.status', '=', 1)
 
-        ->orderBy('products.id', 'asc')
+        ->orderBy('products.id', 'desc')
         ->limit(8)
+        ->get();
+
+        return $return;
+    }
+    static public function getTrendyProducts()  {
+        $return = self::select('products.*',)
+
+        ->where('products.is_trendy', '=', 1)
+
+       ->where('products.is_delete', '=', 0)
+        ->where('products.status', '=', 1)
+
+        ->orderBy('products.id', 'desc')
         ->get();
 
         return $return;

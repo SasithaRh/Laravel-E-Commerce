@@ -29,8 +29,8 @@ class HomeController extends Controller
 
         $data['getCategory'] = Category::getRecord();
         $data['getRecentArrivals'] = Product::getRecentArrivals();
-
-       // dd($data['getCategory'] );
+        $data['getTrendyProducts'] = Product::getTrendyProducts();
+       // dd($data['getTrendyProducts'] );
         return view('home.home',$data,compact("details"));
     }
 

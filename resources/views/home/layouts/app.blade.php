@@ -275,7 +275,7 @@ var id = $(this).attr('id')
                 }else{
                     $('.add-to-wishlist'+id).addClass('btn-wishlist-add')
                 }
-
+location.reload();
             },
             error: function(data) {
 
