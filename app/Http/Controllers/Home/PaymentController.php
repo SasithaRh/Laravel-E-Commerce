@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Prodct_Size;
 use App\Models\Color;
+use App\Models\Notification;
 use App\Models\DiscountCode;
 use App\Mail\OrderInvoiceMail;
 use Mail;
@@ -187,7 +188,10 @@ echo json_encode($json);
                     $getOrder->save();
 
                     Mail::to($getOrder->email)->send(new OrderInvoiceMail($getOrder));
-
+                    $user_id= $getOrder->user_id;
+                    $url = url("/admin/order/details/".$getOrder->id);
+                    $message = "New Order Placed";
+                    Notification::insertRecord($user_id,$url,$message);
                     Cart::clear();
                  return redirect('cart')->with('success',"Order successfully placed");
                 }elseif($getOrder->payment_method == 'paypal'){
@@ -204,9 +208,13 @@ echo json_encode($json);
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function remove(Request $request)
     {
-        //
+       //dd($request->id);
+    Notification::updateReocrd($request->id);
+    $json['status'] =true;
+    echo json_encode($json);
+
     }
 
     /**

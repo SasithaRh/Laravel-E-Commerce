@@ -132,6 +132,7 @@ Route::post('auth_signin',[AuthController::class,'auth_signin']);
 Route::get('activate/{id}',[AuthController::class,'activate_email']);
 Route::get('logout',[AuthController::class,'user_logout'])->name('user_logout');
 Route::get('cart',[PaymentController::class,'cart'])->name('cart');
+Route::get('notification/remove',[PaymentController::class,'remove']);
 Route::get('cart/delete/{id}',[PaymentController::class,'cart_delete'])->name('cart.delete');
 Route::post('cart',[PaymentController::class,'cart_update'])->name('update_cart');
 Route::get('checkout',[PaymentController::class,'checkout'])->name('checkout');

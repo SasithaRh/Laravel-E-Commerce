@@ -162,7 +162,7 @@
                 $('body').delegate('.ChangeStatus','change',function () {
 
             var status  = $('.ChangeStatus').val();
-            alert(status)
+
             var order_id  = $(this).attr('id');
 
              xhr = $.ajax({

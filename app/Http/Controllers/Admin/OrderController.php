@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Mail\OrderStatus;
+use Auth;
+use App\Models\Notification;
 use Mail;
 class OrderController extends Controller
 {
@@ -42,7 +44,12 @@ class OrderController extends Controller
         $details->status = $request->status;
         $details->save();
        // $json['status'] =true;
+       $user_id= Auth::user()->id;
+       $url = url("admin/order/list");
+       $message = "Order No: ".$request->order_id. " Status Updated";
+       Notification::insertRecord($user_id,$url,$message);
        Mail::to($details->email)->send(new OrderStatus($details));
+
         $json['message'] ="Order Status Updated Successfully";
         echo json_encode($json);
 

@@ -14,6 +14,7 @@ use App\Models\Color;
 use App\Models\Prodct_Color;
 use App\Models\Prodct_Size;
 use App\Models\Prodct_Image;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Storage;
 
 use Str;
@@ -65,6 +66,10 @@ class ProductController extends Controller
             Product::create($data);
 
         }
+        $user_id= Auth::user()->id;
+        $url = url("admin/product/list");
+        $message = "New Product Added";
+        Notification::insertRecord($user_id,$url,$message);
         return redirect('admin/product/list')->with('success','Product was created successfully !');
 
     }
@@ -72,10 +77,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(product $product)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
